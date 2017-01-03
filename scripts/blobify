@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -eu
+
+function compile_linux {
+    local path=$1
+    local name=$2
+    local build_output=$workspace/bin/$name
+    local compress_output=$workspace/bin/$name.xz
+    local blob_name=statsd-injector-blobs/$name.xz
+
+    echo "building $path-- LINUX"
+    GOOS=linux go build -o $build_output $path
+    xz -f $build_output
+    bosh add-blob $compress_output $blob_name
+}
+
+workspace=$(realpath $(dirname "$0")/..)
+export GOPATH=$workspace
+
+compile_linux "github.com/cloudfoundry/statsd-injector" "statsd-injector" &
+wait

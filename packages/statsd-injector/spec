@@ -1,0 +1,4 @@
+---
+name: statsd-injector
+files:
+- statsd-injector-blobs/statsd-injector.xz

@@ -1,0 +1,7 @@
+set -e -x
+
+pushd statsd-injector-blobs
+    unxz statsd-injector.xz
+    chmod +x statsd-injector
+    cp -a statsd-injector ${BOSH_INSTALL_TARGET}
+popd
