@@ -6,3 +6,4 @@ blobstore:
   credentials_source: static
   options:
     bucket_name: statsd-injector-release-blobs
+    region: us-west-2
