@@ -5,4 +5,4 @@ blobstore:
   provider: s3
   credentials_source: static
   options:
-    bucket_name: loggregator-release-blobs
+    bucket_name: statsd-injector-release-blobs
