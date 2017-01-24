@@ -24,7 +24,7 @@ case $1 in
     ;;
 
   stop)
-    kill $PIDFILE
+    kill "$(cat $PIDFILE)"
 
     ;;
 
