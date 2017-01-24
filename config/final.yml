@@ -5,5 +5,3 @@ blobstore:
   provider: s3
   options:
     bucket_name: statsd-injector-release-blobs
-    region: us-west-2
-    endpoint: https://s3-us-west-2.amazonaws.com
