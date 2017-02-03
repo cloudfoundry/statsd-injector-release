@@ -3,11 +3,11 @@ name: statsd-injector
 dependencies:
     - golang1.7
 files:
-- github.com/cloudfoundry/statsd-injector/LICENSE
-- github.com/cloudfoundry/sonde-go/events/*.go # gosub
-- github.com/gogo/protobuf/gogoproto/*.go # gosub
-- github.com/gogo/protobuf/proto/*.go # gosub
-- github.com/gogo/protobuf/protoc-gen-gogo/descriptor/*.go # gosub
-- github.com/cloudfoundry/statsd-injector/*.go # gosub
-- github.com/cloudfoundry/statsd-injector/statsdemitter/*.go # gosub
-- github.com/cloudfoundry/statsd-injector/statsdlistener/*.go # gosub
+- statsd-injector-release/src/github.com/cloudfoundry/sonde-go/events/*.go # gosub
+- statsd-injector-release/src/github.com/gogo/protobuf/gogoproto/*.go # gosub
+- statsd-injector-release/src/github.com/gogo/protobuf/proto/*.go # gosub
+- statsd-injector-release/src/github.com/gogo/protobuf/protoc-gen-gogo/descriptor/*.go # gosub
+- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/LICENSE
+- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/*.go # gosub
+- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/statsdemitter/*.go # gosub
+- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/statsdlistener/*.go # gosub
