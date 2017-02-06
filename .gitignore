@@ -16,16 +16,3 @@ config/dev.yml
 config/private.yml
 releases/*.tgz
 releases/**/*.tgz
-
-# vim-go tools
-src/github.com/alecthomas/
-src/github.com/fatih/
-src/github.com/golang/
-src/github.com/google/
-src/github.com/josharian/
-src/github.com/jstemmer/
-src/github.com/kisielk/
-src/github.com/klauspost/
-src/github.com/nicksnyder/
-src/github.com/zmb3/
-

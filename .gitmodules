@@ -40,3 +40,6 @@
 [submodule "src/google.golang.org/grpc"]
 	path = src/google.golang.org/grpc
 	url = https://github.com/google/grpc-go
+[submodule "src/github.com/golang/protobuf"]
+	path = src/github.com/golang/protobuf
+	url = https://github.com/golang/protobuf
