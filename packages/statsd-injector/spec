@@ -3,11 +3,29 @@ name: statsd-injector
 dependencies:
     - golang1.7
 files:
-- statsd-injector-release/src/github.com/cloudfoundry/sonde-go/events/*.go # gosub
-- statsd-injector-release/src/github.com/gogo/protobuf/gogoproto/*.go # gosub
-- statsd-injector-release/src/github.com/gogo/protobuf/proto/*.go # gosub
-- statsd-injector-release/src/github.com/gogo/protobuf/protoc-gen-gogo/descriptor/*.go # gosub
 - statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/LICENSE
-- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/*.go # gosub
-- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/statsdemitter/*.go # gosub
-- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/statsdlistener/*.go # gosub
+- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/**/*
+- github.com/cloudfoundry/statsd-injector/*.go # gosub
+- github.com/cloudfoundry/statsd-injector/plumbing/*.go # gosub
+- github.com/cloudfoundry/statsd-injector/plumbing/v2/*.go # gosub
+- github.com/cloudfoundry/statsd-injector/statsdemitter/*.go # gosub
+- github.com/cloudfoundry/statsd-injector/statsdlistener/*.go # gosub
+- github.com/golang/protobuf/proto/*.go # gosub
+- golang.org/x/net/context/*.go # gosub
+- golang.org/x/net/http2/*.go # gosub
+- golang.org/x/net/http2/hpack/*.go # gosub
+- golang.org/x/net/idna/*.go # gosub
+- golang.org/x/net/internal/timeseries/*.go # gosub
+- golang.org/x/net/lex/httplex/*.go # gosub
+- golang.org/x/net/trace/*.go # gosub
+- google.golang.org/grpc/*.go # gosub
+- google.golang.org/grpc/codes/*.go # gosub
+- google.golang.org/grpc/credentials/*.go # gosub
+- google.golang.org/grpc/grpclog/*.go # gosub
+- google.golang.org/grpc/internal/*.go # gosub
+- google.golang.org/grpc/metadata/*.go # gosub
+- google.golang.org/grpc/naming/*.go # gosub
+- google.golang.org/grpc/peer/*.go # gosub
+- google.golang.org/grpc/stats/*.go # gosub
+- google.golang.org/grpc/tap/*.go # gosub
+- google.golang.org/grpc/transport/*.go # gosub

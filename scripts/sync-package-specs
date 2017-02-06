@@ -31,6 +31,6 @@ function sync_package() {
   )
 }
 
-sync_package boshhmforwarder               -app github.com/cloudfoundry/bosh-hm-forwarder &
+sync_package statsd-injector -app github.com/cloudfoundry/statsd-injector &
 
 wait
