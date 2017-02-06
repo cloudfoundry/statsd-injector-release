@@ -56,7 +56,7 @@ instance_groups:
           metron:
             cert: "((loggregator_metron.certificate))"
             key: "((loggregator_metron.private_key))"
-  - name: statsd-injector
+  - name: statsd_injector
     release: statsd-injector
     properties:
       statsd_injector:

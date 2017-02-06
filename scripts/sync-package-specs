@@ -9,8 +9,6 @@ if [ ! $(which gosub) ]; then
     exit 1
 fi
 
-loggregator_root=${GOPATH}
-
 function sync_package() {
   bosh_pkg=${1}
 

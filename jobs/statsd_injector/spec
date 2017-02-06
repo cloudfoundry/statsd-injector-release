@@ -1,10 +1,13 @@
 ---
-name: statsd-injector
+name: statsd_injector
 templates:
-  statsd-injector-ctl.erb: bin/statsd-injector-ctl
+  ctl.erb: bin/ctl
+  ca.crt.erb: certs/ca.crt
+  statsd_injector.crt.erb: certs/statsd_injector.crt
+  statsd_injector.key.erb: certs/statsd_injector.key
 
 packages:
-- statsd-injector
+- statsd_injector
 properties:
   statsd_injector.metron_port:
     description: "The port on which metron is running"

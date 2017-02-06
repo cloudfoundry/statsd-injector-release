@@ -1,8 +1,8 @@
 #!/bin/bash -e
 
-RUN_DIR=/var/vcap/sys/run/statsd-injector
-LOG_DIR=/var/vcap/sys/log/statsd-injector
-PIDFILE=$RUN_DIR/statsd-injector.pid
+RUN_DIR=/var/vcap/sys/run/statsd_injector
+LOG_DIR=/var/vcap/sys/log/statsd_injector
+PIDFILE=$RUN_DIR/statsd_injector.pid
 
 mkdir -p $RUN_DIR
 mkdir -p $LOG_DIR
@@ -15,12 +15,14 @@ case $1 in
 
     chown -R vcap:vcap $LOG_DIR
 
-    chpst -u vcap:vcap /var/vcap/packages/statsd-injector/statsd-injector \
+    certs=/var/vcap/jobs/statsd_injector/certs/
+
+    chpst -u vcap:vcap /var/vcap/packages/statsd_injector/statsd-injector \
         -statsdPort=<%= p("statsd_injector.statsd_port") %> \
         -metronPort=<%= p("statsd_injector.metron_port") %> \
-        -ca=<%= p("statsd_injector.tls.ca") %> \
-        -cert=<%= p("statsd_injector.tls.cert") %> \
-        -key=<%= p("statsd_injector.tls.key") %> &
+        -ca=$certs/ca.crt \
+        -cert=$certs/statsd_injector.crt \
+        -key=$certs/statsd_injector.key &
 
     echo $! > $PIDFILE
 
@@ -32,7 +34,7 @@ case $1 in
     ;;
 
   *)
-    echo "Usage: statsd-injector-ctl {start|stop}"
+    echo "Usage: ctl {start|stop}"
 
     ;;
 

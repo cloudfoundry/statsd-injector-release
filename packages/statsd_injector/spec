@@ -1,10 +1,10 @@
 ---
-name: statsd-injector
+name: statsd_injector
 dependencies:
     - golang1.7
 files:
-- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/LICENSE
-- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/**/*
+- github.com/cloudfoundry/statsd-injector/LICENSE
+- github.com/cloudfoundry/statsd-injector/**/*.go
 - github.com/cloudfoundry/statsd-injector/*.go # gosub
 - github.com/cloudfoundry/statsd-injector/plumbing/*.go # gosub
 - github.com/cloudfoundry/statsd-injector/plumbing/v2/*.go # gosub

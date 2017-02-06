@@ -2,7 +2,9 @@ set -e -x
 
 export GOROOT=$(readlink -nf /var/vcap/packages/golang1.7)
 export PATH=$GOROOT/bin:$PATH
-export GOPATH=$PWD/statsd-injector-release
+export GOPATH=$PWD
+
+ln -s $GOPATH $GOPATH/src
 
 go install github.com/cloudfoundry/statsd-injector
 cp -a $GOPATH/bin/statsd-injector ${BOSH_INSTALL_TARGET}
