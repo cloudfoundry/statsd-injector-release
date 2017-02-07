@@ -59,12 +59,12 @@ instance_groups:
   - name: statsd_injector
     release: statsd-injector
     properties:
-      statsd_injector:
+      loggregator:
         tls:
-          ca: "((statsd_injector.ca))"
-          cert: "((statsd_injector.certificate))"
-          key: "((statsd_injector.private_key))"
-
+          ca_cert: "((statsd_injector.ca))"
+          statsd_injector:
+            cert: "((statsd_injector.certificate))"
+            key: "((statsd_injector.private_key))"
 
 variables:
 - name: dropsonde_shared_secret
@@ -101,7 +101,7 @@ variables:
   type: certificate
   options:
     ca: loggregator_ca
-    common_name: statsd-injector
+    common_name: statsdinjector
     ext_key_usage:
     - client_auth
 - name: consul_encrypt_key

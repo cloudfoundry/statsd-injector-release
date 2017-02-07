@@ -15,9 +15,9 @@ properties:
   statsd_injector.statsd_port:
     description: "The port on which the injector should listen for statsd messages"
     default: 8125
-  statsd_injector.tls.ca:
+  loggregator.tls.ca_cert:
     description: "File path to the CA certificate"
-  statsd_injector.tls.cert:
+  loggregator.tls.statsd_injector.cert:
     description: "File path to the client TLS cert"
-  statsd_injector.tls.key:
+  loggregator.tls.statsd_injector.key:
     description: "File path to the client TLS private key"
