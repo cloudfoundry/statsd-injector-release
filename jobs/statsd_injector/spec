@@ -11,7 +11,7 @@ packages:
 properties:
   statsd_injector.metron_port:
     description: "The port on which metron is running"
-    default: 3457
+    default: 3458
   statsd_injector.statsd_port:
     description: "The port on which the injector should listen for statsd messages"
     default: 8125
