@@ -22,13 +22,13 @@ function sync_package() {
     {
       cat spec | grep -v '# gosub'
       gosub list "$@" | \
-        sed -e 's|\(.*\)|- \1/*.go # gosub|g'
+        sed -e 's|\(.*\)|- statsd-injector-release/src/\1/*.go # gosub|g'
     } > spec.new
 
     mv spec.new spec
   )
 }
 
-sync_package statsd-injector -app github.com/cloudfoundry/statsd-injector &
+sync_package statsd_injector -app github.com/cloudfoundry/statsd-injector &
 
 wait
