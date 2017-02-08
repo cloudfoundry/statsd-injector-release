@@ -59,6 +59,8 @@ instance_groups:
   - name: statsd_injector
     release: statsd-injector
     properties:
+      statsd_injector:
+        deployment: statsd-injector
       loggregator:
         tls:
           ca_cert: "((statsd_injector.ca))"
