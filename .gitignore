@@ -16,3 +16,5 @@ config/dev.yml
 config/private.yml
 releases/*.tgz
 releases/**/*.tgz
+
+statsd-injector-certs
