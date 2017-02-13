@@ -14,7 +14,15 @@ set -x
 go get -v github.com/square/certstrap
 
 # Place keys and certificates here
-depot_path=$(readlink --canonicalize ./statsd-injector-certs)
+
+readlink() {
+  (
+    cd $(dirname $1)
+    echo $PWD/$(basename $1)
+  )
+}
+
+depot_path=$(readlink ./statsd-injector-certs)
 mkdir -p ${depot_path}
 
 if [ "$1" = "no-loggregator-ca" ]; then
@@ -25,8 +33,8 @@ if [ "$1" = "no-loggregator-ca" ]; then
     mv -f ${depot_path}/loggregatorCA.crl ${depot_path}/loggregator-ca.crl
     loggregator_ca_name=loggregator-ca
 else
-    loggregator_ca_cert_path=$(readlink --canonicalize ${1})
-    loggregator_ca_key_path=$(readlink --canonicalize ${2})
+    loggregator_ca_cert_path=$(readlink ${1})
+    loggregator_ca_key_path=$(readlink ${2})
     loggregator_ca_name=$(basename ${loggregator_ca_cert_path} ".crt")
     ln -s ${loggregator_ca_cert_path} ${depot_path}/
     ln -s ${loggregator_ca_key_path} ${depot_path}/
