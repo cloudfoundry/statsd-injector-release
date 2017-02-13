@@ -18,3 +18,4 @@ releases/*.tgz
 releases/**/*.tgz
 
 statsd-injector-certs
+src/github.com/square/certstrap
