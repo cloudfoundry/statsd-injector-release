@@ -18,15 +18,15 @@ case $1 in
     certs=/var/vcap/jobs/statsd_injector/certs/
 
     chpst -u vcap:vcap /var/vcap/packages/statsd_injector/statsd-injector \
-        -statsd-port=<%= p("statsd_injector.statsd_port") %> \
-        -metron-port=<%= p("statsd_injector.metron_port") %> \
-        -ca=$certs/ca.crt \
-        -cert=$certs/statsd_injector.crt \
-        -key=$certs/statsd_injector.key \
-        -deployment-name=<%= p("statsd_injector.deployment") %> \
-        -job-name=<%= spec.name %> \
-        -instance-index=<%= spec.id || spec.index %> \
-        -ip=<%= spec.ip %> &
+        --statsd-port=<%= p("statsd_injector.statsd_port") %> \
+        --metron-port=<%= p("statsd_injector.metron_port") %> \
+        --ca=$certs/ca.crt \
+        --cert=$certs/statsd_injector.crt \
+        --key=$certs/statsd_injector.key \
+        --deployment-name=<%= p("statsd_injector.deployment") %> \
+        --job-name=<%= spec.name %> \
+        --instance-index=<%= spec.id || spec.index %> \
+        --ip=<%= spec.ip %> &
 
     echo $! > $PIDFILE
 
