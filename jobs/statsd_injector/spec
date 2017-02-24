@@ -9,15 +9,23 @@ templates:
 packages:
 - statsd_injector
 properties:
+  statsd_injector.metron.api_version:
+    description: "Setting to configure the Loggregator API version used by statsd"
+    default: v1
   statsd_injector.metron_port:
     description: "The port on which metron is running"
-    default: 3458
+    default: 3457
+
+  statsd_injector.statsd_host:
+    description: "The host on which the injector should listen"
+    default: localhost
   statsd_injector.statsd_port:
     description: "The port on which the injector should listen for statsd messages"
     default: 8125
   statsd_injector.deployment:
     description: "The name of the deployment, used for 'deployment' tag on outgoing envelopes"
     example: "cf,cf-warden"
+
   loggregator.tls.ca_cert:
     description: "File path to the CA certificate"
   loggregator.tls.statsd_injector.cert:
