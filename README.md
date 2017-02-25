@@ -1,5 +1,5 @@
 # statsd-injector
-Companion component to Metron that receives Statsd and emits [Loggregator API v2](https://github.com/cloudfoundry/loggregator-api) envelopes to Metron
+Companion component to Metron that receives Statsd and emits to Metron.
 
 ## Including statsd-injector in a bosh deployment
 As an example, if you want the injector to be present on loggregator boxes, add the following in `cf-lamb.yml`
