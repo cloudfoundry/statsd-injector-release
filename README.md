@@ -12,7 +12,7 @@ As an example, if you want the injector to be present on loggregator boxes, add 
        release: loggregator
      - name: metron_agent
        release: loggregator
-+    - name: statsd-injector
++    - name: statsd_injector
 +      release: statsd-injector
 ```
 
