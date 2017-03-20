@@ -4,8 +4,9 @@ Companion component to Metron that receives Statsd and emits to Metron.
 ## Usage
 
 `statsd_injector` is to be colocated with a `metron_agent`. It receives
-metrics via UDP and will emit to `metron-agent` via the [gRPC v2
-api](https://github.com/cloudfoundry/loggregator-api).
+metrics via UDP and will emit to `metron-agent` via the [Loggregator v2
+api](https://github.com/cloudfoundry/loggregator-api) which is built on 
+[gRPC](https://github.com/grpc/).
 
 ### Deployment
 
