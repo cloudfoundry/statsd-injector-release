@@ -6,4 +6,3 @@ blobstore:
   options:
     bucket_name: statsd-injector-release-blobs
     region: us-east-1
-    endpoint: https://s3-us-east-1.amazonaws.com
