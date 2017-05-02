@@ -87,7 +87,7 @@ These instructions are colocating the job with `metron_agent`.
 1. Validate the metric can be seen.
 
    Assuming you are using `statsd-injector` with CF Release, you can use the
-   [CF Nozzle plugin](https://github.com/cloudfoundry/firehose-plugin)
+   [CF Nozzle plugin](https://github.com/cloudfoundry-community/firehose-plugin)
 
    ```bash
    cf nozzle -filter CounterEvent | grep <metric_name>
