@@ -1,12 +1,12 @@
-# statsd-injector
+# statsd-injector [![slack.cloudfoundry.org][slack-badge]][loggregator-slack]
 Companion component to Metron that receives Statsd and emits to Metron.
 
 ## Usage
 
 `statsd_injector` is to be colocated with a `metron_agent`. It receives
 metrics via UDP and will emit to `metron-agent` via the [Loggregator v2
-api](https://github.com/cloudfoundry/loggregator-api) which is built on
-[gRPC](https://github.com/grpc/).
+api][loggregator-api] which is built on
+[gRPC][grpc].
 
 ### Creating a release
 
@@ -37,7 +37,7 @@ These instructions are colocating the job with `metron_agent`.
         version: latest
    ```
 
-   Then `bosh upload release` the latest [`statsd-injector-release` bosh release](http://bosh.io/releases/github.com/cloudfoundry/statsd-injector-release?all=1).
+   Then `bosh upload release` the latest [`statsd-injector-release` bosh release][bosh-release].
 
 1. Colocate the job that has `metron_agent`.
 
@@ -87,10 +87,16 @@ These instructions are colocating the job with `metron_agent`.
 1. Validate the metric can be seen.
 
    Assuming you are using `statsd-injector` with CF Release, you can use the
-   [CF Nozzle plugin](https://github.com/cloudfoundry-community/firehose-plugin)
+   [CF Nozzle plugin][cf-nozzle-plugin]
 
    ```bash
    cf nozzle -filter CounterEvent | grep <metric_name>
    ```
 
 
+[slack-badge]:          https://slack.cloudfoundry.org/badge.svg
+[loggregator-slack]:    https://cloudfoundry.slack.com/archives/loggregator
+[loggregator-api]:      https://github.com/cloudfoundry/loggregator-api
+[grpc]:                 https://github.com/grpc/
+[bosh-release]:         http://bosh.io/releases/github.com/cloudfoundry/statsd-injector-release?all=1
+[cf-nozzle-plugin]:     https://github.com/cloudfoundry-community/firehose-plugin     
