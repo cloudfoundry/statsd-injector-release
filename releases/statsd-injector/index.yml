@@ -41,12 +41,16 @@ builds:
     version: 1.0.23
   be6e311e-b9d7-43ed-4ce2-ce7e6a26157e:
     version: 1.0.12
+  bfc01ec1-dd6b-472d-5ed8-f98c78ce7457:
+    version: 1.0.27
   c6194bbb-ed5a-497c-4590-cc6f08709de3:
     version: 1.0.20
   c7dfbc40-6bbf-4a42-7973-1aff8968efed:
     version: 1.0.11
   c9aad5cf-d777-43fa-79c3-a263acce9456:
     version: 1.0.24
+  d34c34a6-946b-4f9a-79ff-c4bc81a11fd7:
+    version: 1.0.26
   e08a10d6-8603-4de4-4294-805a78eabf7f:
     version: 1.0.17
 format-version: "2"
