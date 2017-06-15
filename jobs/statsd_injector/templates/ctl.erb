@@ -23,11 +23,7 @@ case $1 in
         --metron-port="<%= p("statsd_injector.metron_port") %>" \
         --ca="$certs/ca.crt" \
         --cert="$certs/statsd_injector.crt" \
-        --key="$certs/statsd_injector.key" \
-        --deployment-name="<%=p("statsd_injector.deployment").empty? ? spec.deployment : p("statsd_injector.deployment")%>" \
-        --job-name="<%= spec.name %>" \
-        --instance-index="<%= spec.id || spec.index %>" \
-        --ip="<%= spec.ip %>" &
+        --key="$certs/statsd_injector.key" &
 
     echo $! > $PIDFILE
 

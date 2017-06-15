@@ -46,3 +46,6 @@
 [submodule "src/github.com/cloudfoundry/loggregator-api"]
 	path = src/github.com/cloudfoundry/loggregator-api
 	url = https://github.com/cloudfoundry/loggregator-api
+[submodule "src/code.cloudfoundry.org/go-loggregator"]
+	path = src/code.cloudfoundry.org/go-loggregator
+	url = https://github.com/cloudfoundry-incubator/go-loggregator
