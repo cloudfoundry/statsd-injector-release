@@ -7,8 +7,8 @@ files:
 - statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/**/*.go
 - statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/*.go # gosub
 - statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/app/*.go # gosub
-- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/internal/egress/v2/*.go # gosub
-- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/internal/ingress/v2/*.go # gosub
+- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/internal/egress/*.go # gosub
+- statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/internal/ingress/*.go # gosub
 - statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/internal/plumbing/*.go # gosub
 - statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/internal/plumbing/v2/*.go # gosub
 - statsd-injector-release/src/github.com/cloudfoundry/statsd-injector/profiler/*.go # gosub
