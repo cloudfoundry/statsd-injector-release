@@ -26,21 +26,10 @@ instance_groups:
   jobs:
   - name: consul_agent
     release: consul
-    properties:
-      consul:
-        agent:
-          mode: server
-          domain: cf.internal
-          servers:
-            lan: [10.244.0.34]
-        require_ssl: true
-        encrypt_keys:
-        - "((consul_encrypt_key))"
-        agent_cert: "((consul_agent.certificate))"
-        agent_key: "((consul_agent.private_key))"
-        ca_cert: "((consul_server.ca))"
-        server_cert: "((consul_server.certificate))"
-        server_key: "((consul_server.private_key))"
+    consumes:
+      consul_client: {deployment: "cf", from: "consul_client_link"}
+      consul_common: {deployment: "cf", from: "consul_common_link"}
+      consul_server: {deployment: "cf", from: "consul_server_link"}
   - name: metron_agent
     release: loggregator
     properties:
