@@ -10,7 +10,7 @@ releases:
   version: latest
 - name: loggregator
   version: latest
-- name: consul
+- name: bpm
   version: latest
 
 instance_groups:
@@ -18,18 +18,12 @@ instance_groups:
   azs:
   - z1
   instances: 1
-  persistent_disk_type: 1GB
+  persistent_disk_type: default
   vm_type: default
   stemcell: default
   networks:
   - name: default
   jobs:
-  - name: consul_agent
-    release: consul
-    consumes:
-      consul_client: {deployment: "cf", from: "consul_client_link"}
-      consul_common: {deployment: "cf", from: "consul_common_link"}
-      consul_server: {deployment: "cf", from: "consul_server_link"}
   - name: metron_agent
     release: loggregator
     properties:

@@ -1,7 +1,7 @@
 ---
 name: statsd_injector
 templates:
-  ctl.erb: bin/ctl
+  bpm.yml.erb: config/bpm.yml
   ca.crt.erb: certs/ca.crt
   statsd_injector.crt.erb: certs/statsd_injector.crt
   statsd_injector.key.erb: certs/statsd_injector.key
