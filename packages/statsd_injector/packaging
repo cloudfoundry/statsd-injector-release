@@ -6,6 +6,7 @@ cp -a . ${BOSH_INSTALL_TARGET}/src
 export GOROOT=$(readlink -nf /var/vcap/packages/golang1.12.1)
 export GOPATH=$BOSH_INSTALL_TARGET
 export PATH=$GOROOT/bin:$PATH
+export HOME=/var/vcap
 
 go install github.com/cloudfoundry/statsd-injector
 cp -a $GOPATH/bin/statsd-injector ${BOSH_INSTALL_TARGET}

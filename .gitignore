@@ -20,3 +20,6 @@ releases/**/*.tgz
 statsd-injector-certs
 src/github.com/square/certstrap
 src/github.com/codegangsta/cli
+
+# intellij
+.idea
