@@ -1,7 +1,7 @@
 ---
 name: statsd_injector
 dependencies:
-- golang1.12.1
+- golang1.12.3
 
 files:
 - github.com/cloudfoundry/statsd-injector/LICENSE
