@@ -83,6 +83,12 @@ These instructions are colocating the job with `metron_agent`.
    ```
 
    *NOTE:* The injector expects the the name of the metric to be of the form `<origin>.<metric_name>`
+   
+   The injector also supports tags according to the [Datadog StatsD extension](datadog-statsd):
+   
+   ```bash
+   echo "origin.some.counter:1|c|#testtag1:testvalue1,testtag2:testvalue2" | nc -u -w0 127.0.0.1 8125
+   ```
 
 1. Validate the metric can be seen.
 
@@ -99,4 +105,5 @@ These instructions are colocating the job with `metron_agent`.
 [loggregator-api]:      https://github.com/cloudfoundry/loggregator-api
 [grpc]:                 https://github.com/grpc/
 [bosh-release]:         http://bosh.io/releases/github.com/cloudfoundry/statsd-injector-release?all=1
+[datadog-statsd]:       https://docs.datadoghq.com/developers/dogstatsd/datagram_shell/
 [cf-nozzle-plugin]:     https://github.com/cloudfoundry-community/firehose-plugin     
