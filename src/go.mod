@@ -14,7 +14,7 @@ require (
 	github.com/google/pprof v0.0.0-20190515194954-54271f7e092f // indirect
 	github.com/googleapis/gax-go/v2 v2.0.5 // indirect
 	github.com/kisielk/errcheck v1.2.0 // indirect
-	github.com/kr/pty v1.1.6 // indirect
+	github.com/kr/pty v1.1.7 // indirect
 	github.com/onsi/ginkgo v1.8.0
 	github.com/onsi/gomega v1.5.0
 	go.opencensus.io v0.22.0 // indirect
