@@ -1,7 +1,7 @@
 ---
 name: statsd_injector
 dependencies:
-- golang1.12.4
+- golang-1-linux
 
 files:
 - ./**/*.go
