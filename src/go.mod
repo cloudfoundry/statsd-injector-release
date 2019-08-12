@@ -12,7 +12,7 @@ require (
 	github.com/onsi/ginkgo v1.8.0
 	github.com/onsi/gomega v1.5.0
 	golang.org/x/net v0.0.0-20190724013045-ca1201d0de80
-	golang.org/x/sys v0.0.0-20190804053845-51ab0e2deafa // indirect
+	golang.org/x/sys v0.0.0-20190812073006-9eafafc0a87e // indirect
 	golang.org/x/text v0.3.2 // indirect
 	google.golang.org/appengine v1.4.0 // indirect
 	google.golang.org/genproto v0.0.0-20190801165951-fa694d86fc64 // indirect
