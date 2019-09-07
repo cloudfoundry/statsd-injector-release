@@ -6,8 +6,8 @@ code.cloudfoundry.org/go-loggregator v7.4.0+incompatible/go.mod h1:KPBTRqj+y738N
 code.cloudfoundry.org/rfc5424 v0.0.0-20180905210152-236a6d29298a h1:8rqv2w8xEceNwckcF5ONeRt0qBHlh5bnNfFnYTrZbxs=
 code.cloudfoundry.org/rfc5424 v0.0.0-20180905210152-236a6d29298a/go.mod h1:tkZo8GtzBjySJ7USvxm4E36lNQw1D3xM6oKHGqdaAJ4=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/cactus/go-statsd-client/statsd v0.0.0-20190805010426-5089fcbbe532 h1:/Etyacb4vN0EH9edp+lNhcaSWOZBUOuURr6wvIXt5gI=
-github.com/cactus/go-statsd-client/statsd v0.0.0-20190805010426-5089fcbbe532/go.mod h1:3/sdo8I67TaOslRGJ6FqQC/ynu+wg7H6IE4WYtr51hk=
+github.com/cactus/go-statsd-client/statsd v0.0.0-20190906215803-47b6058c80f5 h1:SyLNUW7DhzjYSkRUFOI8ufKySZroS621MyzTT9ba9uw=
+github.com/cactus/go-statsd-client/statsd v0.0.0-20190906215803-47b6058c80f5/go.mod h1:D4RDtP0MffJ3+R36OkGul0LwJLIN8nRb0Ac6jZmJCmo=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV9I=
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=

@@ -5,7 +5,7 @@ code.cloudfoundry.org/go-loggregator
 code.cloudfoundry.org/go-loggregator/rpc/loggregator_v2
 # code.cloudfoundry.org/rfc5424 v0.0.0-20180905210152-236a6d29298a
 code.cloudfoundry.org/rfc5424
-# github.com/cactus/go-statsd-client/statsd v0.0.0-20190805010426-5089fcbbe532
+# github.com/cactus/go-statsd-client/statsd v0.0.0-20190906215803-47b6058c80f5
 github.com/cactus/go-statsd-client/statsd
 # github.com/golang/protobuf v1.3.2
 github.com/golang/protobuf/jsonpb
