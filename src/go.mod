@@ -9,10 +9,10 @@ require (
 	github.com/cactus/go-statsd-client/statsd v0.0.0-20190922113730-52b467de415c
 	github.com/gogo/protobuf v1.3.0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
-	github.com/onsi/ginkgo v1.10.1
+	github.com/onsi/ginkgo v1.10.2
 	github.com/onsi/gomega v1.7.0
-	golang.org/x/net v0.0.0-20190930134127-c5a3c61f89f3
-	golang.org/x/sys v0.0.0-20191001151750-bb3f8db39f24 // indirect
+	golang.org/x/net v0.0.0-20191002035440-2ec189313ef0
+	golang.org/x/sys v0.0.0-20191002091554-b397fe3ad8ed // indirect
 	golang.org/x/text v0.3.2 // indirect
 	google.golang.org/appengine v1.4.0 // indirect
 	google.golang.org/genproto v0.0.0-20190927181202-20e1ac93f88c // indirect
