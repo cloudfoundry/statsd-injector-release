@@ -5,7 +5,7 @@ code.cloudfoundry.org/go-loggregator
 code.cloudfoundry.org/go-loggregator/rpc/loggregator_v2
 # code.cloudfoundry.org/rfc5424 v0.0.0-20180905210152-236a6d29298a
 code.cloudfoundry.org/rfc5424
-# github.com/cactus/go-statsd-client/statsd v0.0.0-20190922113730-52b467de415c
+# github.com/cactus/go-statsd-client/statsd v0.0.0-20191030180650-a68a2246f89c
 github.com/cactus/go-statsd-client/statsd
 # github.com/golang/protobuf v1.3.2
 github.com/golang/protobuf/jsonpb
@@ -21,7 +21,7 @@ github.com/hpcloud/tail/ratelimiter
 github.com/hpcloud/tail/util
 github.com/hpcloud/tail/watch
 github.com/hpcloud/tail/winfile
-# github.com/onsi/ginkgo v1.10.2
+# github.com/onsi/ginkgo v1.10.3
 github.com/onsi/ginkgo
 github.com/onsi/ginkgo/config
 github.com/onsi/ginkgo/internal/codelocation
@@ -40,7 +40,7 @@ github.com/onsi/ginkgo/internal/leafnodes
 github.com/onsi/ginkgo/internal/spec
 github.com/onsi/ginkgo/internal/specrunner
 github.com/onsi/ginkgo/reporters/stenographer/support/go-isatty
-# github.com/onsi/gomega v1.7.0
+# github.com/onsi/gomega v1.7.1
 github.com/onsi/gomega
 github.com/onsi/gomega/gexec
 github.com/onsi/gomega/internal/assertion
