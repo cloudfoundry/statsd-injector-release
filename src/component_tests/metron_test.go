@@ -1,9 +1,10 @@
 package component_tests_test
 
 import (
+	"code.cloudfoundry.org/tlsconfig"
+	"log"
 	"net"
 
-	loggregator "code.cloudfoundry.org/go-loggregator"
 	"code.cloudfoundry.org/go-loggregator/rpc/loggregator_v2"
 
 	"google.golang.org/grpc"
@@ -18,15 +19,18 @@ type MetronServer struct {
 }
 
 func NewMetronServer() (*MetronServer, error) {
-	tlsConfig, err := loggregator.NewIngressTLSConfig(
-		CAFilePath(),
-		MetronCertPath(),
-		MetronKeyPath(),
+	config, err := tlsconfig.Build(
+		tlsconfig.WithInternalServiceDefaults(),
+		tlsconfig.WithIdentityFromFile(MetronCertPath(), MetronKeyPath()),
+	).Client(
+		tlsconfig.WithAuthorityFromFile(CAFilePath()),
+		tlsconfig.WithServerName("metron"),
 	)
 	if err != nil {
-		return nil, err
+		log.Fatal("Invalid TLS credentials")
 	}
-	transportCreds := credentials.NewTLS(tlsConfig)
+
+	transportCreds := credentials.NewTLS(config)
 	mockMetron := newMockMetronIngressServer()
 
 	lis, err := net.Listen("tcp", ":0")
