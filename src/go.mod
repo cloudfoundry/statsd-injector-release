@@ -5,13 +5,12 @@ go 1.12
 require (
 	code.cloudfoundry.org/go-loggregator v7.4.0+incompatible
 	code.cloudfoundry.org/rfc5424 v0.0.0-20180905210152-236a6d29298a // indirect
-	code.cloudfoundry.org/tlsconfig v0.0.0-20191220232943-2819aba30e10
+	code.cloudfoundry.org/tlsconfig v0.0.0-20200103214402-4ae6f49cdca0
 	github.com/cactus/go-statsd-client/statsd v0.0.0-20191106001114-12b4e2b38748
 	github.com/google/go-cmp v0.3.1 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/onsi/ginkgo v1.11.0
 	github.com/onsi/gomega v1.8.1
-	github.com/square/certstrap v1.2.0 // indirect
 	golang.org/x/lint v0.0.0-20190313153728-d0100b6bd8b3 // indirect
 	golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553
 	golang.org/x/sys v0.0.0-20200103143344-a1369afcdac7 // indirect
