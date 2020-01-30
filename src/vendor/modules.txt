@@ -2,11 +2,11 @@
 code.cloudfoundry.org/go-loggregator/rpc/loggregator_v2
 # code.cloudfoundry.org/rfc5424 v0.0.0-20180905210152-236a6d29298a
 code.cloudfoundry.org/rfc5424
-# code.cloudfoundry.org/tlsconfig v0.0.0-20200108215323-551ec42d1f74
+# code.cloudfoundry.org/tlsconfig v0.0.0-20200125003142-b5ccaa4fedfc
 code.cloudfoundry.org/tlsconfig
 # github.com/cactus/go-statsd-client/statsd v0.0.0-20191106001114-12b4e2b38748
 github.com/cactus/go-statsd-client/statsd
-# github.com/golang/protobuf v1.3.2
+# github.com/golang/protobuf v1.3.3
 github.com/golang/protobuf/proto
 github.com/golang/protobuf/ptypes
 github.com/golang/protobuf/ptypes/any
@@ -63,7 +63,7 @@ golang.org/x/net/http/httpguts
 golang.org/x/net/idna
 golang.org/x/net/html
 golang.org/x/net/html/atom
-# golang.org/x/sys v0.0.0-20200116001909-b77594299b42
+# golang.org/x/sys v0.0.0-20200124204421-9fbb57f87de9
 golang.org/x/sys/unix
 # golang.org/x/text v0.3.2
 golang.org/x/text/encoding
@@ -89,9 +89,9 @@ golang.org/x/text/internal/tag
 # golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
 golang.org/x/xerrors
 golang.org/x/xerrors/internal
-# google.golang.org/genproto v0.0.0-20200115191322-ca5a22157cba
+# google.golang.org/genproto v0.0.0-20200128133413-58ce757ed39b
 google.golang.org/genproto/googleapis/rpc/status
-# google.golang.org/grpc v1.26.0
+# google.golang.org/grpc v1.27.0
 google.golang.org/grpc
 google.golang.org/grpc/credentials
 google.golang.org/grpc/backoff
@@ -132,5 +132,5 @@ google.golang.org/grpc/attributes
 gopkg.in/fsnotify.v1
 # gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7
 gopkg.in/tomb.v1
-# gopkg.in/yaml.v2 v2.2.7
+# gopkg.in/yaml.v2 v2.2.8
 gopkg.in/yaml.v2
