@@ -1,4 +1,4 @@
-# statsd-injector [![slack.cloudfoundry.org][slack-badge]][loggregator-slack]
+# statsd-injector
 The statsd injector is a colocated job for bosh VMs that transforms metrics
 from statsd format to loggregator envelope format, and sends them to the
 forwarder agent on the vm. It is being maintained but not actively developed.
@@ -13,19 +13,20 @@ UDP and re-emits them to the metric receiver.
 Examples of loggregator v2 envelope receiver:
 [loggregator forwarder agent][forwarder-agent-release]
 
-A link to how it fits into the loggregator architecture can be found
+A visual of how it fits in the broader loggregator architecture can be found
 [in the Tanzu docs](https://docs.pivotal.io/platform/application-service/2-9/loggregator/architecture.html)
 
 ### Development
 
-The binary for `statsd_injector` is build from the code is `src/`
+The binary for `statsd_injector` is build from the code is `src/`. To run the
+tests:
 
 ```bash
 cd src/
 go test -mod=vendor ./... -race
 ```
 
-If you have ginkgo, you can use the following command:
+Or, if you have ginkgo:
 
 ```bash
 ginkgo -r -race -randomizeAllSpecs
@@ -87,7 +88,8 @@ bosh create-release
 1. Send it a metric
 
    You can emit statsd metrics to the injector by sending a correctly formatted
-   message to udp port 8125 on the job's VM.
+   message to udp port 8125 on the job's
+   [VM](http://operator-workshop.cloudfoundry.org/labs/bosh-ha/).
 
    As an example using `nc`:
 
