@@ -8,7 +8,7 @@ stemcells:
 releases:
 - name: statsd-injector
   version: latest
-- name: loggregator
+- name: loggregator-agent
   version: latest
 - name: bpm
   version: latest
@@ -24,21 +24,6 @@ instance_groups:
   networks:
   - name: default
   jobs:
-  - name: metron_agent
-    release: loggregator
-    properties:
-      doppler:
-        addr: doppler.service.cf.internal
-      metron_agent:
-        deployment: statsd-injector
-      metron_endpoint:
-        shared_secret: "((dropsonde_shared_secret))"
-      loggregator:
-        tls:
-          ca_cert: "((loggregator_metron.ca))"
-          metron:
-            cert: "((loggregator_metron.certificate))"
-            key: "((loggregator_metron.private_key))"
   - name: statsd_injector
     release: statsd-injector
     properties:
@@ -52,37 +37,11 @@ instance_groups:
             key: "((statsd_injector.private_key))"
 
 variables:
-- name: dropsonde_shared_secret
-  type: password
 - name: loggregator_ca
   type: certificate
   options:
     is_ca: true
     common_name: loggregatorCA
-- name: loggregator_doppler
-  type: certificate
-  options:
-    ca: loggregator_ca
-    common_name: doppler
-    extended_key_usage:
-    - client_auth
-    - server_auth
-- name: loggregator_tc
-  type: certificate
-  options:
-    ca: loggregator_ca
-    common_name: trafficcontroller
-    extended_key_usage:
-    - client_auth
-    - server_auth
-- name: loggregator_metron
-  type: certificate
-  options:
-    ca: loggregator_ca
-    common_name: metron
-    extended_key_usage:
-    - client_auth
-    - server_auth
 - name: statsd_injector
   type: certificate
   options:
@@ -90,29 +49,6 @@ variables:
     common_name: statsdinjector
     extended_key_usage:
     - client_auth
-- name: consul_encrypt_key
-  type: password
-- name: consul_agent_ca
-  type: certificate
-  options:
-    is_ca: true
-    common_name: consulCA
-- name: consul_agent
-  type: certificate
-  options:
-    ca: consul_agent_ca
-    common_name: consul_agent
-    extended_key_usage:
-    - client_auth
-    - server_auth
-- name: consul_server
-  type: certificate
-  options:
-    ca: consul_agent_ca
-    common_name: server.dc1.cf.internal
-    extended_key_usage:
-    - client_auth
-    - server_auth
 
 update:
   canaries: 10
