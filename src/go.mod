@@ -7,7 +7,7 @@ require (
 	code.cloudfoundry.org/rfc5424 v0.0.0-20180905210152-236a6d29298a // indirect
 	code.cloudfoundry.org/tlsconfig v0.0.0-20200131000646-bbe0f8da39b3
 	github.com/cactus/go-statsd-client/statsd v0.0.0-20200423205355-cb0885a1018c
-	github.com/golang/protobuf v1.4.0 // indirect
+	github.com/golang/protobuf v1.4.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/onsi/ginkgo v1.12.0
