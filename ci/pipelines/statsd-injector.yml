@@ -1,0 +1,708 @@
+groups:
+- name: claim-environment
+  jobs:
+  - claim-cfd-env
+  - unclaim-cfd-env
+- name: statsd-injector
+  jobs:
+  - statsd-injector-tests-with-bumped-modules
+  - cf-deploy
+  - cfar-lats
+  - test-releases-can-be-exported
+  - statsd-injector-promotion
+  - statsd-injector-master-promotion
+- name: release
+  jobs:
+  - statsd-injector-cut-major
+  - statsd-injector-cut-minor
+  - statsd-injector-cut-patch
+  - statsd-injector-bumper-check
+  - statsd-injector-create-final-release
+  - statsd-injector-merge-to-develop
+- name: bump-golang
+  jobs:
+  - bump-golang
+
+resource_types:
+- name: pcf-pool
+  type: docker-image
+  source:
+    repository: cftoolsmiths/toolsmiths-envs-resource
+
+resources:
+- name: 5m
+  type: time
+  source:
+    interval: 5m
+
+- name: 24h
+  type: time
+  source:
+    interval: 24h
+
+- name: cf-deployment
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cf-deployment
+    tag_filter: v13.2.0
+    private_key: ((loggregator-key))
+
+- name: cf-deployment-concourse-tasks
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/cf-deployment-concourse-tasks
+    tag_filter: v10.18.0
+
+- name: concourse-tasks
+  type: git
+  source:
+    uri: https://github.com/pivotal-cf/concourse-tasks
+  version:
+    ref: 018663068fab25e0c76b6f72e08f322886dd6d04
+
+- name: cfar-logging-acceptance-tests
+  type: git
+  source:
+    branch: statsd-metrics # TODO: change back to master!
+    uri: https://github.com/cloudfoundry/cfar-logging-acceptance-tests.git
+
+- name: denver-deployments
+  type: git
+  source:
+    uri: git@github.com:pivotal-cf/denver-deployments.git
+    branch: master
+    private_key: ((cf-loggregator-oauth-bot-key))
+
+- name: loggregator-ci
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/loggregator-ci
+    branch: master
+    private_key: ((cf-loggregator-oauth-bot-key))
+
+- name: cf-deployment-concourse-tasks-image
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+    tag: latest
+
+- name: statsd-injector-release-elect
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/statsd-injector-release.git
+    branch: release-elect
+    private_key: ((cf-loggregator-oauth-bot-key))
+    ignore_paths:
+      - .final_builds
+      - releases
+
+- name: statsd-injector-release
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/statsd-injector-release.git
+    branch: lts-pipeline # TODO: change me back to develop!
+    private_key: ((cf-loggregator-oauth-bot-key))
+    ignore_paths:
+      - .final_builds
+      - releases
+
+- name: statsd-injector-release-master
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/statsd-injector-release.git
+    branch: master
+    private_key: ((cf-loggregator-oauth-bot-key))
+    disable_ci_skip: true
+
+- name: cf-drain-cli-master
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/cf-drain-cli
+    branch: master
+    private_key: ((cf-loggregator-oauth-bot-key))
+
+- name: log-stream-cli-master
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/log-stream-cli
+    branch: master
+    private_key: ((cf-loggregator-oauth-bot-key))
+
+- name: cfd-env
+  type: pcf-pool
+  source:
+    api_token: ((toolsmiths-api-key))
+    hostname: environments.toolsmiths.cf-app.com
+    pool_name: cf-deployment
+  tags: [ ((toolsmiths-workers-tag)) ]
+
+
+#==========================================================================================
+#                         RESOURCES FOR RELEASING & DEPENDENCIES
+#==========================================================================================
+- name: statsd-injector-version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:cloudfoundry/statsd-injector-release.git
+    branch: master
+    file: src/version
+    private_key: ((cf-loggregator-oauth-bot-key))
+
+- name: statsd-injector-release-to-cut
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/statsd-injector-release
+    branch: develop
+    private_key: ((cf-loggregator-oauth-bot-key))
+    disable_ci_skip: true
+    clean_tags: true
+
+- name: statsd-injector-release-master-to-cut
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/statsd-injector-release
+    branch: master
+    clean_tags: true
+    private_key: ((cf-loggregator-oauth-bot-key))
+
+- name: statsd-injector-release-master-version
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/statsd-injector-release
+    branch: master
+    clean_tags: true
+    private_key: ((cf-loggregator-oauth-bot-key))
+    paths:
+    - src/version
+
+- name: statsd-injector-github-release-drafts
+  type: github-release
+  source:
+    user: cloudfoundry
+    repository: statsd-injector-release
+    access_token: ((access-token))
+    drafts: true
+
+- name: statsd-injector-github-release-published
+  type: github-release
+  source:
+    user: cloudfoundry
+    repository: statsd-injector-release
+    access_token: ((access-token))
+
+- name: golang-release
+  type: git
+  source:
+    uri: git@github.com:bosh-packages/golang-release
+    branch: master
+    tag_filter: v*
+    private_key: ((cf-loggregator-oauth-bot-key))
+
+jobs:
+#==========================================================================================
+#                                     RUN TESTS
+#==========================================================================================
+- name: statsd-injector-tests-with-bumped-modules
+  public: true
+  serial: true
+  plan:
+  - in_parallel:
+    - get: loggregator-ci
+    - get: 24h
+      trigger: true
+    - get: statsd-injector-release
+      trigger: true
+  - in_parallel:
+    - task: run-tests
+      file: loggregator-ci/tasks/go-bump-modules-and-test/task.yml
+      input_mapping:
+        source-repo: statsd-injector-release
+  - task: commit
+    file: loggregator-ci/tasks/commit/task.yml
+    input_mapping:
+      release-repo: bumped-source
+    output_mapping:
+      committed-repo: committed-statsd-injector-release
+    params:
+      COMMIT_MESSAGE: "Bump modules"
+  - put: statsd-injector-release
+    params:
+      repository: committed-statsd-injector-release
+      rebase: true
+
+- name: statsd-injector-promotion
+  serial: true
+  plan:
+  - in_parallel:
+    - get: develop
+      resource: statsd-injector-release
+      trigger: true
+      passed: ["cfar-lats", "test-releases-can-be-exported"]
+    - get: statsd-injector-release-elect
+  - put: statsd-injector-release-elect
+    params:
+      repository: develop
+
+- name: statsd-injector-master-promotion
+  serial: true
+  plan:
+  - in_parallel:
+    - get: 5m
+      trigger: true
+    - get: statsd-injector-release-elect
+      passed: ["statsd-injector-promotion"]
+      trigger: true
+    - get: statsd-injector-release-master
+    - get: loggregator-ci
+  - task: bumper
+    file: loggregator-ci/tasks/bumper/task.yml
+    input_mapping:
+      source: statsd-injector-release-elect
+      dest: statsd-injector-release-master
+    params:
+      SOURCE_BRANCH: release-elect
+      DEST_BRANCH: master
+      TRACKER_API_TOKEN: ((tracker-api-token))
+  - put: statsd-injector-release-master
+    params:
+      repository: merged-dest
+
+- name: claim-cfd-env
+  serial: true
+  plan:
+  - in_parallel:
+    - get: cf-deployment
+    - get: cf-deployment-concourse-tasks
+    - get: concourse-tasks
+  - put: cfd-env
+    params:
+      action: claim
+    tags: [ ((toolsmiths-workers-tag)) ]
+  - task: output-env-details
+    file: concourse-tasks/toolsmiths/claim-pooled-env/task.yml
+    input_mapping:
+      pooled-env: cfd-env
+
+- name: cf-deploy
+  serial: true
+  serial_groups:
+  - cf-deploy
+  - bosh-cfar-lats
+  - bosh-export-releases
+  plan:
+  - in_parallel:
+    - get: cfd-env
+      tags: [ ((toolsmiths-workers-tag)) ]
+      passed: ["claim-cfd-env"]
+    - get: cf-deployment
+      trigger: true
+    - get: cf-deployment-concourse-tasks
+    - get: denver-deployments
+    - get: statsd-injector-release
+      passed: ["statsd-injector-tests-with-bumped-modules"]
+      trigger: true
+  - in_parallel:
+    - task: collect-ops-files
+      file: cf-deployment-concourse-tasks/collect-ops-files/task.yml
+      input_mapping:
+        base-ops-files: cf-deployment
+        new-ops-files: statsd-injector-release
+      params:
+        BASE_OPS_FILE_DIR: operations
+        NEW_OPS_FILES: manifests/operations/add-statsd-injector.yml
+    - task: empty-vars-files
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+        run:
+          path: /bin/bash
+          args:
+            - -c
+            - echo "Not doing anything here... Literally creating an empty vars-files because it's required for the next task"
+        outputs:
+        - name: vars-files
+  - task: create-and-deploy-statsd-injector-release
+    file: cf-deployment-concourse-tasks/bosh-deploy-with-created-release/task.yml
+    input_mapping:
+      toolsmiths-env: cfd-env
+      release: statsd-injector-release
+      ops-files: collected-ops-files
+    params:
+      OPS_FILES: |
+        operations/scale-to-one-az.yml
+        operations/use-compiled-releases.yml
+        operations/experimental/fast-deploy-with-downtime-and-danger.yml
+        operations/add-statsd-injector.yml
+  - task: enable-feature-flags
+    file: cf-deployment-concourse-tasks/set-feature-flags/task.yml
+    input_mapping:
+      toolsmiths-env: cfd-env
+    attempts: 3
+    params:
+      ENABLED_FEATURE_FLAGS: diego_docker
+  - task: cleanup
+    file: cf-deployment-concourse-tasks/bosh-cleanup/task.yml
+    input_mapping:
+      toolsmiths-env: cfd-env
+  - task: create-blackbox-space
+    input_mapping:
+      toolsmiths-env: cfd-env
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+      inputs:
+      - name: toolsmiths-env
+      params:
+        ORG: system
+        SPACE: blackbox-testing
+      run:
+        path: /bin/bash
+        args:
+          - -exc
+          - |
+            API_URL=$(cat toolsmiths-env/metadata | jq -r '.cf.api_url')
+            eval "$(bbl print-env --metadata-file toolsmiths-env/metadata)"
+            password=$(credhub get --name=$(credhub find | grep cf_admin | awk '{print $3}') --output-json | jq -r .value)
+            cf api $API_URL --skip-ssl-validation
+            cf auth admin $password
+            cf target -o system
+
+            set +e
+            cf org $ORG
+            set -e
+            if [ $? -eq 0 ]; then
+              cf create-org $ORG
+            fi
+            cf target -o $ORG
+
+            set +e
+            cf space $SPACE
+            set -e
+            if [ $? -eq 0 ]; then
+              cf create-space $SPACE
+            fi
+  - task: create-accumulators-space
+    file: statsd-injector-release/ci/tasks/create-org-and-space/task.yml
+    input_mapping:
+      toolsmiths-env: cfd-env
+      release: statsd-injector-release
+    params:
+      ORG: system
+      SPACE: accumulators
+
+- name: test-releases-can-be-exported
+  serial: true
+  serial_groups:
+  - bosh-export-releases
+  plan:
+  - in_parallel:
+    - get: concourse-tasks
+    - get: cf-deployment-concourse-tasks-image
+    - get: cfd-env
+      tags: [ ((toolsmiths-workers-tag)) ]
+    - get: statsd-injector-release
+      trigger: true
+      passed: ["cf-deploy"]
+  - do:
+    - task: export-releases-xenial
+      file: concourse-tasks/release/export/task.yml
+      params:
+        RELEASE_NAMES: |
+          statsd-injector
+    ensure:
+      task: clean-up
+      image: cf-deployment-concourse-tasks-image
+      input_mapping:
+        toolsmiths-env: cfd-env
+      config:
+        platform: linux
+        inputs:
+        - name: toolsmiths-env
+        run:
+          path: /bin/bash
+          args:
+          - "-ec"
+          - |
+            eval "$(bbl print-env --metadata-file toolsmiths-env/metadata)"
+            for deployment in $(bosh deployments --column Name | grep compilation-) ; do
+              bosh delete-deployment -d "$deployment" -n
+            done
+- name: cfar-lats
+  serial: true
+  serial_groups:
+  - bosh-cfar-lats
+  plan:
+  - in_parallel:
+    - get: cfar-logging-acceptance-tests
+      trigger: true
+    - get: loggregator-ci
+    - get: cfd-env
+      tags: [ ((toolsmiths-workers-tag)) ]
+    - get: cf-drain-cli-master
+    - get: log-stream-cli-master
+    - get: statsd-injector-release
+      trigger: true
+      passed: ["cf-deploy"]
+  - task: run-cfar-lats
+    input_mapping:
+      cf-drain-cli: cf-drain-cli-master
+      log-stream-cli: log-stream-cli-master
+      toolsmiths-env: cfd-env
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+      inputs:
+      - name: toolsmiths-env
+      - name: cfar-logging-acceptance-tests
+      - name: cf-drain-cli
+      - name: log-stream-cli
+      outputs:
+      - name: cats-config
+      run:
+        path: /bin/bash
+        args:
+          - -exc
+          - |
+            # Target CF
+            api_url=$(cat toolsmiths-env/metadata | jq -r '.cf.api_url')
+            SYSTEM_DOMAIN=${api_url#"api."}
+            eval "$(bbl print-env --metadata-file toolsmiths-env/metadata)"
+            export CF_ADMIN_USER=admin
+            export CF_ADMIN_PASSWORD=$(credhub get --name=$(credhub find | grep cf_admin | awk '{print $3}') --output-json | jq -r .value)
+            export CF_DOMAIN=${SYSTEM_DOMAIN}
+            cf api $api_url --skip-ssl-validation
+            cf auth admin $CF_ADMIN_PASSWORD
+            cf target -o system -s accumulators
+
+            # Move to GOPATH and run ginkto tests
+            mkdir -p $GOPATH/src/github.com/cloudfoundry
+            mkdir -p $GOPATH/src/code.cloudfoundry.org
+
+            cp -R cfar-logging-acceptance-tests $GOPATH/src/github.com/cloudfoundry
+            cp -R cf-drain-cli $GOPATH/src/code.cloudfoundry.org
+            cp -R log-stream-cli $GOPATH/src/github.com/cloudfoundry
+
+            pushd $GOPATH/src/code.cloudfoundry.org/cf-drain-cli
+                go get ./...
+            popd
+
+            pushd $GOPATH/src/code.cloudfoundry.org/cf-drain-cli/cmd/cf-drain-cli
+                go build
+                cf install-plugin -f cf-drain-cli
+            popd
+
+            pushd $GOPATH/src/github.com/cloudfoundry/log-stream-cli
+                go get ./...
+            popd
+
+            pushd $GOPATH/src/github.com/cloudfoundry/log-stream-cli/cmd/log-stream-cli
+                go build
+                cf install-plugin -f ./log-stream-cli
+            popd
+
+            export SKIP_SSL_VALIDATION=true
+            export APP_PUSH_TIMEOUT=180s
+            pushd $GOPATH/src/github.com/cloudfoundry/cfar-logging-acceptance-tests
+              go get -t ./...
+              go install github.com/onsi/ginkgo/ginkgo
+              ginkgo -r -race -flakeAttempts=2 --skip="ServiceDrain"
+            popd
+
+- name: unclaim-cfd-env
+  serial: true
+  plan:
+  - in_parallel:
+    - get: cfd-env
+      passed: ["claim-cfd-env"]
+      tags: [ ((toolsmiths-workers-tag)) ]
+    - put: cfd-env
+      inputs:
+      - cfd-env
+      params:
+        action: unclaim
+        env_file: cfd-env/metadata
+      tags: [ ((toolsmiths-workers-tag)) ]
+
+#==========================================================================================
+#                                    CUT RELEASE
+#==========================================================================================
+- name: statsd-injector-bumper-check
+  serial: true
+  plan:
+  - in_parallel:
+    - get: loggregator-ci
+    - get: statsd-injector-release-master
+      resource: statsd-injector-release-master-to-cut
+      trigger: true
+    - get: statsd-injector-github-release-published
+  - task: diff-master-last-release
+    input_mapping:
+      release: statsd-injector-release-master
+      published-release: statsd-injector-github-release-published
+    file: loggregator-ci/tasks/bumper-check/task.yml
+    params:
+      SSH_KEY: ((loggregator-key))
+      TRACKER_API_TOKEN: ((tracker-api-token))
+
+- name: statsd-injector-cut-patch
+  plan:
+  - put: statsd-injector-version
+    params: {bump: patch}
+- name: statsd-injector-cut-minor
+  plan:
+  - put: statsd-injector-version
+    params: {bump: minor}
+- name: statsd-injector-cut-major
+  plan:
+  - put: statsd-injector-version
+    params: {bump: major}
+
+- name: statsd-injector-create-final-release
+  serial: true
+  plan:
+  - in_parallel:
+    - get: statsd-injector-release-master-version
+    - get: loggregator-ci
+  - task: create-final-release
+    file: loggregator-ci/tasks/create-final-release/master/task.yml
+    input_mapping:
+      master-repo: statsd-injector-release-master-version
+    params:
+      S3_ACCESS_KEY: ((s3-access-key-id))
+      S3_SECRET_KEY: ((s3-secret-access-key))
+      BLOBSTORE_BUCKET: statsd-injector-release-blobs
+      JSON_KEY: ((gcp-service-account-key))
+      SSH_KEY: ((loggregator-key))
+      RELEASE_NAME: Statsd Injector
+      AUTO_BUMPABLE_COMMITS: |
+        'Bump modules'
+        'bump golang release'
+        'Merge final release artifacts'
+        'Create final release'
+        'bump to'
+  - put: statsd-injector-release-master-to-cut
+    params:
+      repository: repos/master-repo
+      rebase: false
+  - try:
+      task: should-publish
+      file: loggregator-ci/tasks/create-final-release/should-publish/task.yml
+      on_success:
+        put: statsd-injector-github-release-published
+        params:
+          name: github-release/name
+          tag: github-release/tag
+          body: github-release/body
+          globs:
+          - github-release/*.tgz
+      on_failure:
+        put: statsd-injector-github-release-drafts
+        params:
+          name: github-release/name
+          tag: github-release/tag
+          body: github-release/body
+          globs:
+            - github-release/*.tgz
+
+- name: statsd-injector-merge-to-develop
+  serial: true
+  plan:
+  - in_parallel:
+    - get: statsd-injector-release
+      resource: statsd-injector-release-to-cut
+    - get: statsd-injector-release-master
+      resource: statsd-injector-release-master-to-cut
+      passed: [ statsd-injector-create-final-release ]
+      trigger: true
+    - get: loggregator-ci
+    - get: statsd-injector-github-release-published
+      trigger: true
+  - task: wait-for-releases-to-match
+    input_mapping:
+      master-repo: statsd-injector-release-master
+      published-release: statsd-injector-github-release-published
+    config:
+      image_resource:
+        type: docker-image
+        source:
+          repository: loggregator/base
+      platform: linux
+      inputs:
+        - name: master-repo
+        - name: published-release
+      run:
+        path: /bin/bash
+        args:
+          - "-c"
+          - |
+            set -e
+
+            pushd master-repo > /dev/null
+              master_sha=$(git rev-parse HEAD)
+            popd
+
+            published_sha=$(cat published-release/commit_sha)
+
+            if [[ ${master_sha} != ${published_sha} ]]; then
+              echo "Published release sha doesn't match master repo sha"
+              echo "This job will retrigger once published release or master repo resource is updated"
+              exit 1
+            fi
+  - task: merge-back-to-develop
+    file: loggregator-ci/tasks/merge-to-develop/task.yml
+    input_mapping:
+      master-repo: statsd-injector-release-master
+      develop-repo: statsd-injector-release
+    params:
+      SSH_KEY: ((loggregator-key))
+      MASTER_BRANCH: master
+      DEVELOP_BRANCH: develop
+  - put: statsd-injector-release-to-cut
+    params:
+      repository: repos/develop-repo
+      rebase: false
+
+#==========================================================================================
+#                                  BUMP DEPENDENCIES
+#==========================================================================================
+- name: bump-golang
+  serial: true
+  plan:
+  - in_parallel:
+    - get: loggregator-ci
+    - get: concourse-tasks
+    - get: golang-release
+      trigger: true
+    - get: statsd-injector-release
+      resource: statsd-injector-release-to-cut
+  - in_parallel:
+    - do:
+      - task: bump-statsd-injector-release
+        file: concourse-tasks/go/bump-vendored-golang/task.yml
+        input_mapping:
+          release: statsd-injector-release
+        output_mapping:
+          output-repo: updated-statsd-injector-release
+        params:
+          BLOBSTORE_ACCESS_KEY_ID: {{s3-access-key-id}}
+          BLOBSTORE_SECRET_ACCESS_KEY: {{s3-secret-access-key}}
+          GCS_JSON_KEY: {{gcp-service-account-key}}
+          GIT_USER_EMAIL: cf-loggregator@pivotal.io
+          GIT_USER_NAME: Loggregator CI
+          GOLANG_DIR: golang-release
+          RELEASE_DIR: release
+      - put: statsd-injector-release
+        params:
+          repository: updated-statsd-injector-release
+          rebase: false
+

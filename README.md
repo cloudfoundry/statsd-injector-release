@@ -16,6 +16,8 @@ Examples of loggregator v2 envelope receiver:
 A visual of how it fits in the broader loggregator architecture can be found
 in the [Loggregator Architecture docs](https://docs.cloudfoundry.org/loggregator/architecture.html).
 
+For example, this is used in CF by the components UAA and CAPI.
+
 ### Development
 
 The binary for `statsd_injector` is build from the code is `src/`. To run the
@@ -109,10 +111,10 @@ bosh create-release
 1. Validate the metric can be seen.
 
    Assuming you are using `statsd-injector` with CF Release, you can use the
-   [CF Nozzle plugin][cf-nozzle-plugin]
+   [CF Log Stream plugin][cf-log-stream-plugin]
 
    ```bash
-   cf nozzle -filter CounterEvent | grep <metric_name>
+   cf log-stream <source-id> | grep <metric_name>
    ```
 
    Alternatively, you could curl the metrics-agent endpoint directly:
@@ -121,9 +123,29 @@ bosh create-release
    curl https://localhost:14727/metrics -k -cacert=scrape_ca.crt --cert scrape.crt --key scrape.key
    ```
 
+### Pipeline
+
+The Concourse pipeline configuration and set-up script live in the
+[ci directory](https://github.com/cloudfoundry/statsd-injector-release/tree/develop/ci).
+
+View the pipeline [here](https://concourse.cf-denver.com/teams/loggregator/pipelines/statsd-injector?group=statsd-injector).
+
+To update the pipeline, you can run `ci/set-pipeline.sh statsd-injector`.
+
+The pipeline has 4 groups:
+* Claims an environment
+* Run statsd-injector-release tests
+    * Bumps Go modules and runs unit tests
+    * Creates a deploys a dev release to CF-D
+    * Tests against cfar-lats
+    * Merges changes to release-elect and master branch when changes are
+      accepted
+* Cuts a release
+* Bumps golang dependency
+
 [loggregator-api]:         https://github.com/cloudfoundry/loggregator-api
 [grpc]:                    https://github.com/grpc/
 [bosh-release]:            http://bosh.io/releases/github.com/cloudfoundry/statsd-injector-release?all=1
 [datadog-statsd]:          https://docs.datadoghq.com/developers/dogstatsd/datagram_shell/
-[cf-nozzle-plugin]:        https://github.com/cloudfoundry-community/firehose-plugin
+[cf-log-stream-plugin]:    https://github.com/cloudfoundry/log-stream-cli
 [forwarder-agent-release]: https://github.com/cloudfoundry/loggregator-agent-release

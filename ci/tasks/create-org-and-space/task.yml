@@ -1,0 +1,17 @@
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
+
+inputs:
+- name: toolsmiths-env
+- name: release
+
+params:
+  ORG:
+  SPACE:
+
+run:
+  path: release/ci/tasks/create-org-and-space/task
