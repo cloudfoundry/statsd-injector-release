@@ -11,10 +11,10 @@ envelope][loggregator-api] receiver on the
 UDP and re-emits them to the metric receiver.
 
 Examples of loggregator v2 envelope receiver:
-[loggregator forwarder agent][forwarder-agent-release]
+[loggregator forwarder agent][forwarder-agent-release].
 
 A visual of how it fits in the broader loggregator architecture can be found
-[in the Tanzu docs](https://docs.pivotal.io/platform/application-service/2-9/loggregator/architecture.html)
+in the [Loggregator Architecture docs](https://docs.cloudfoundry.org/loggregator/architecture.html).
 
 ### Development
 
@@ -64,7 +64,7 @@ bosh create-release
    +    version: latest
    ```
 
-   Then `bosh upload release` the latest [`statsd-injector-release` bosh release][bosh-release].
+   Then `bosh upload-release` the latest [`statsd-injector-release` bosh release][bosh-release].
 
 1. Colocate the job in the desired instance group.
 
@@ -88,7 +88,8 @@ bosh create-release
 1. Send it a metric
 
    You can emit statsd metrics to the injector by sending a correctly formatted
-   message to udp port 8125 on the job's
+   message to the udp port specified by the `statsd_injector.statsd_port` property.
+   This defaults to port 8125 on the job's
    [VM](http://operator-workshop.cloudfoundry.org/labs/bosh-ha/).
 
    As an example using `nc`:
@@ -99,7 +100,7 @@ bosh create-release
 
    *NOTE:* The injector expects the the name of the metric to be of the form `<origin>.<metric_name>`
 
-   The injector also supports tags according to the [Datadog StatsD extension](datadog-statsd):
+   The injector also supports tags according to the [Datadog StatsD extension][datadog-statsd]:
 
    ```bash
    echo "origin.some.counter:1|c|#testtag1:testvalue1,testtag2:testvalue2" | nc -u -w0 127.0.0.1 8125
