@@ -13,7 +13,7 @@ require (
 	github.com/onsi/gomega v1.10.1
 	golang.org/x/net v0.0.0-20200602114024-627f9648deb9
 	golang.org/x/sys v0.0.0-20200610111108-226ff32320da // indirect
-	google.golang.org/genproto v0.0.0-20200610104632-a5b850bcf112 // indirect
+	google.golang.org/genproto v0.0.0-20200611194920-44ba362f84c1 // indirect
 	google.golang.org/grpc v1.29.1
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 )
