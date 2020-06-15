@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -ex
+
+source release/ci/tasks/environment-targeting.sh
+
+set +e
+cf org $ORG
+set -e
+
+if [ $? -eq 0 ]; then
+      cf create-org $ORG
+fi
+
+cf target -o $ORG
+
+set +e
+cf space $SPACE
+set -e
+
+if [ $? -eq 0 ]; then
+      cf create-space $SPACE
+fi
+
+cf target -s $SPACE
+
