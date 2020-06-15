@@ -63,7 +63,7 @@ resources:
 - name: cfar-logging-acceptance-tests
   type: git
   source:
-    branch: statsd-metrics # TODO: change back to master!
+    branch: master
     uri: https://github.com/cloudfoundry/cfar-logging-acceptance-tests.git
 
 - name: denver-deployments
@@ -100,7 +100,7 @@ resources:
   type: git
   source:
     uri: git@github.com:cloudfoundry/statsd-injector-release.git
-    branch: lts-pipeline # TODO: change me back to develop!
+    branch: develop
     private_key: ((cf-loggregator-oauth-bot-key))
     ignore_paths:
       - .final_builds
@@ -349,45 +349,13 @@ jobs:
     input_mapping:
       toolsmiths-env: cfd-env
   - task: create-blackbox-space
+    file: statsd-injector-release/ci/tasks/create-org-and-space/task.yml
     input_mapping:
       toolsmiths-env: cfd-env
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository: relintdockerhubpushbot/cf-deployment-concourse-tasks
-      inputs:
-      - name: toolsmiths-env
-      params:
-        ORG: system
-        SPACE: blackbox-testing
-      run:
-        path: /bin/bash
-        args:
-          - -exc
-          - |
-            API_URL=$(cat toolsmiths-env/metadata | jq -r '.cf.api_url')
-            eval "$(bbl print-env --metadata-file toolsmiths-env/metadata)"
-            password=$(credhub get --name=$(credhub find | grep cf_admin | awk '{print $3}') --output-json | jq -r .value)
-            cf api $API_URL --skip-ssl-validation
-            cf auth admin $password
-            cf target -o system
-
-            set +e
-            cf org $ORG
-            set -e
-            if [ $? -eq 0 ]; then
-              cf create-org $ORG
-            fi
-            cf target -o $ORG
-
-            set +e
-            cf space $SPACE
-            set -e
-            if [ $? -eq 0 ]; then
-              cf create-space $SPACE
-            fi
+      release: statsd-injector-release
+    params:
+      ORG: system
+      SPACE: blackbox-testing
   - task: create-accumulators-space
     file: statsd-injector-release/ci/tasks/create-org-and-space/task.yml
     input_mapping:
@@ -701,7 +669,7 @@ jobs:
           GIT_USER_NAME: Loggregator CI
           GOLANG_DIR: golang-release
           RELEASE_DIR: release
-      - put: statsd-injector-release
+      - put: statsd-injector-release-to-cut
         params:
           repository: updated-statsd-injector-release
           rebase: false
