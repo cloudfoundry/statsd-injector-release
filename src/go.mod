@@ -10,9 +10,9 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/onsi/ginkgo v1.16.1
 	github.com/onsi/gomega v1.11.0
-	golang.org/x/net v0.0.0-20210421230115-4e50805a0758
-	golang.org/x/sys v0.0.0-20210421221651-33663a62ff08 // indirect
-	google.golang.org/genproto v0.0.0-20210422153429-2279cbceda62 // indirect
+	golang.org/x/net v0.0.0-20210423184538-5f58ad60dda6
+	golang.org/x/sys v0.0.0-20210423185535-09eb48e85fd7 // indirect
+	google.golang.org/genproto v0.0.0-20210423144448-3a41ef94ed2b // indirect
 	google.golang.org/grpc v1.37.0
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 )
