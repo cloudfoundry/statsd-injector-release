@@ -91,7 +91,7 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# google.golang.org/genproto v0.0.0-20210426193834-eac7f76ac494
+# google.golang.org/genproto v0.0.0-20210427215850-f767ed18ee4d
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.37.0
 google.golang.org/grpc
