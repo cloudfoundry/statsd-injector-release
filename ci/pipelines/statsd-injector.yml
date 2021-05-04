@@ -1,16 +1,18 @@
 groups:
-- name: claim-environment
+- name: statsd-injector
   jobs:
   - claim-cfd-env
   - unclaim-cfd-env
-- name: statsd-injector
-  jobs:
   - statsd-injector-tests-with-bumped-modules
   - cf-deploy
   - cfar-lats
   - test-releases-can-be-exported
   - statsd-injector-promotion
   - statsd-injector-master-promotion
+- name: environment-management
+  jobs:
+  - claim-cfd-env
+  - unclaim-cfd-env
 - name: release
   jobs:
   - statsd-injector-cut-major
@@ -110,7 +112,7 @@ resources:
   type: git
   source:
     uri: git@github.com:cloudfoundry/statsd-injector-release.git
-    branch: master
+    branch: main
     private_key: ((cf-loggregator-oauth-bot-key))
     disable_ci_skip: true
 
@@ -134,7 +136,6 @@ resources:
     api_token: ((toolsmiths-api-key))
     hostname: environments.toolsmiths.cf-app.com
     pool_name: cf-deployment
-  tags: [ ((toolsmiths-workers-tag)) ]
 
 
 #==========================================================================================
@@ -145,7 +146,7 @@ resources:
   source:
     driver: git
     uri: git@github.com:cloudfoundry/statsd-injector-release.git
-    branch: master
+    branch: main
     file: src/version
     private_key: ((cf-loggregator-oauth-bot-key))
 
@@ -162,7 +163,7 @@ resources:
   type: git
   source:
     uri: git@github.com:cloudfoundry/statsd-injector-release
-    branch: master
+    branch: main
     clean_tags: true
     private_key: ((cf-loggregator-oauth-bot-key))
 
@@ -170,7 +171,7 @@ resources:
   type: git
   source:
     uri: git@github.com:cloudfoundry/statsd-injector-release
-    branch: master
+    branch: main
     clean_tags: true
     private_key: ((cf-loggregator-oauth-bot-key))
     paths:
@@ -262,7 +263,7 @@ jobs:
       dest: statsd-injector-release-master
     params:
       SOURCE_BRANCH: release-elect
-      DEST_BRANCH: master
+      DEST_BRANCH: main
       TRACKER_API_TOKEN: ((tracker-api-token))
   - put: statsd-injector-release-master
     params:
@@ -278,7 +279,6 @@ jobs:
   - put: cfd-env
     params:
       action: claim
-    tags: [ ((toolsmiths-workers-tag)) ]
   - task: output-env-details
     file: concourse-tasks/toolsmiths/claim-pooled-env/task.yml
     input_mapping:
@@ -293,7 +293,6 @@ jobs:
   plan:
   - in_parallel:
     - get: cfd-env
-      tags: [ ((toolsmiths-workers-tag)) ]
       passed: ["claim-cfd-env"]
     - get: cf-deployment
       trigger: true
@@ -374,7 +373,6 @@ jobs:
     - get: concourse-tasks
     - get: cf-deployment-concourse-tasks-image
     - get: cfd-env
-      tags: [ ((toolsmiths-workers-tag)) ]
     - get: statsd-injector-release
       trigger: true
       passed: ["cf-deploy"]
@@ -412,7 +410,6 @@ jobs:
       trigger: true
     - get: loggregator-ci
     - get: cfd-env
-      tags: [ ((toolsmiths-workers-tag)) ]
     - get: cf-drain-cli-master
     - get: log-stream-cli-master
     - get: statsd-injector-release
@@ -492,14 +489,12 @@ jobs:
   - in_parallel:
     - get: cfd-env
       passed: ["claim-cfd-env"]
-      tags: [ ((toolsmiths-workers-tag)) ]
     - put: cfd-env
       inputs:
       - cfd-env
       params:
         action: unclaim
         env_file: cfd-env/metadata
-      tags: [ ((toolsmiths-workers-tag)) ]
 
 #==========================================================================================
 #                                    CUT RELEASE
@@ -542,9 +537,9 @@ jobs:
     - get: statsd-injector-release-master-version
     - get: loggregator-ci
   - task: create-final-release
-    file: loggregator-ci/tasks/create-final-release/master/task.yml
+    file: loggregator-ci/tasks/create-final-release/main/task.yml
     input_mapping:
-      master-repo: statsd-injector-release-master-version
+      main-repo: statsd-injector-release-master-version
     params:
       S3_ACCESS_KEY: ((s3-access-key-id))
       S3_SECRET_KEY: ((s3-secret-access-key))
