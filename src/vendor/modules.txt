@@ -20,7 +20,7 @@ github.com/nxadm/tail/ratelimiter
 github.com/nxadm/tail/util
 github.com/nxadm/tail/watch
 github.com/nxadm/tail/winfile
-# github.com/onsi/ginkgo v1.16.1
+# github.com/onsi/ginkgo v1.16.2
 github.com/onsi/ginkgo
 github.com/onsi/ginkgo/config
 github.com/onsi/ginkgo/formatter
@@ -56,7 +56,7 @@ github.com/onsi/gomega/matchers/support/goraph/edge
 github.com/onsi/gomega/matchers/support/goraph/node
 github.com/onsi/gomega/matchers/support/goraph/util
 github.com/onsi/gomega/types
-# golang.org/x/net v0.0.0-20210503060351-7fd8e65b6420
+# golang.org/x/net v0.0.0-20210504132125-bbd867fde50d
 golang.org/x/net/context
 golang.org/x/net/html
 golang.org/x/net/html/atom
@@ -91,7 +91,7 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# google.golang.org/genproto v0.0.0-20210503173045-b96a97608f20
+# google.golang.org/genproto v0.0.0-20210504143626-3b2ad6ccc450
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.37.0
 google.golang.org/grpc
