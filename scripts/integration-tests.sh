@@ -2,8 +2,9 @@
 
 set -eo pipefail
 
+time=$(date +%s%N)
 cf install-plugin "log-cache" -f
-
-cf tail -n 1000 uaa | grep requests.global.completed
+sleep 5
+cf tail uaa -n 1000 --start-time="${time}" | grep requests.global.completed
 
 
