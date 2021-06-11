@@ -89,6 +89,8 @@ builds:
     version: 1.0.27
   c0ef4085-412d-43bf-62db-168ac0b037e8:
     version: 1.11.12
+  c4f45979-f180-4a35-6f12-5e67842ecc38:
+    version: 1.11.16
   c6194bbb-ed5a-497c-4590-cc6f08709de3:
     version: 1.0.20
   c7dfbc40-6bbf-4a42-7973-1aff8968efed:
