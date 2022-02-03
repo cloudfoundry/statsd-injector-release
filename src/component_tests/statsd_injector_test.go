@@ -38,17 +38,26 @@ var _ = Describe("StatsdInjector", func() {
 	AfterEach(func() {
 		consumerServer.Stop()
 		cleanup()
+		gexec.CleanupBuildArtifacts()
 	})
 
 	It("emits envelopes produced from statsd", func() {
 		connection, err := net.Dial("udp", statsdAddr)
 		Expect(err).ToNot(HaveOccurred())
 		defer connection.Close()
-		statsdmsg := []byte("fake-origin.test.counter:23|g")
 
+		done := make(chan bool, 1)
+		defer close(done)
 		go func() {
-			for range time.Tick(time.Millisecond) {
-				connection.Write(statsdmsg)
+			statsdmsg := []byte("fake-origin.test.counter:23|g")
+			ticker := time.NewTicker(100 * time.Millisecond)
+			for {
+				select {
+				case <-ticker.C:
+					connection.Write(statsdmsg)
+				case <-done:
+					return
+				}
 			}
 		}()
 
@@ -73,10 +82,10 @@ var _ = Describe("StatsdInjector", func() {
 })
 
 func startStatsdInjector(metronPort string) (statsdAddr string, cleanup func()) {
+	port := fmt.Sprint(testPort())
+
 	path, err := gexec.Build("github.com/cloudfoundry/statsd-injector")
 	Expect(err).ToNot(HaveOccurred())
-
-	port := fmt.Sprint(testPort())
 
 	cmd := exec.Command(path,
 		"-statsd-port", port,
@@ -85,14 +94,12 @@ func startStatsdInjector(metronPort string) (statsdAddr string, cleanup func()) 
 		"-cert", StatsdCertPath(),
 		"-key", StatsdKeyPath(),
 	)
-	cmd.Stdout = GinkgoWriter
-	cmd.Stderr = GinkgoWriter
+	session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
+	Expect(err).ShouldNot(HaveOccurred())
 
-	Expect(cmd.Start()).To(Succeed())
-
-	return fmt.Sprintf("localhost:%s", port), func() {
-		cmd.Process.Kill()
-		cmd.Wait()
+	return fmt.Sprintf("127.0.0.1:%s", port), func() {
+		session.Kill()
+		session.Wait()
 	}
 }
 
