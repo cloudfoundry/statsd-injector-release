@@ -1,7 +1,6 @@
-# code.cloudfoundry.org/go-loggregator v7.4.0+incompatible
-code.cloudfoundry.org/go-loggregator/rpc/loggregator_v2
-# code.cloudfoundry.org/rfc5424 v0.0.0-20201103192249-000122071b78
-code.cloudfoundry.org/rfc5424
+# code.cloudfoundry.org/go-loggregator/v8 v8.0.5
+code.cloudfoundry.org/go-loggregator/v8/rfc5424
+code.cloudfoundry.org/go-loggregator/v8/rpc/loggregator_v2
 # code.cloudfoundry.org/tlsconfig v0.0.0-20200131000646-bbe0f8da39b3
 code.cloudfoundry.org/tlsconfig
 # github.com/cactus/go-statsd-client/statsd v0.0.0-20200623234511-94959e3146b2
