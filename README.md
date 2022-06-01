@@ -3,6 +3,8 @@ The statsd injector is a colocated job for bosh VMs that transforms metrics
 from statsd format to loggregator envelope format, and sends them to the
 forwarder agent on the vm. It is being maintained but not actively developed.
 
+If you have any questions, or want to get attention for a PR or issue please reach out on the [#logging-and-metrics channel in the cloudfoundry slack](https://cloudfoundry.slack.com/archives/CUW93AF3M)
+
 ## Usage
 
 The `statsd_injector` job needs to be colocated with a [Loggregator v2
