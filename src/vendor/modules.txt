@@ -11,9 +11,6 @@ git.sr.ht/~nelsam/hel/v3
 git.sr.ht/~nelsam/hel/v3/mock
 git.sr.ht/~nelsam/hel/v3/pkg
 git.sr.ht/~nelsam/hel/v3/typ
-# github.com/cactus/go-statsd-client/statsd v0.0.0-20200623234511-94959e3146b2
-## explicit; go 1.11
-github.com/cactus/go-statsd-client/statsd
 # github.com/fsnotify/fsnotify v1.4.9
 ## explicit; go 1.13
 github.com/fsnotify/fsnotify

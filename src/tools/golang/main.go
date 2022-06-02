@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/cactus/go-statsd-client/statsd"
+	"github.com/cactus/go-statsd-client/v5/statsd"
 )
 
 func main() {
@@ -16,7 +16,11 @@ func main() {
 		port = os.Args[1]
 	}
 
-	client, err := statsd.NewClient(fmt.Sprintf("127.0.0.1:%s", port), "testNamespace")
+	c := &statsd.ClientConfig{
+		Address: fmt.Sprintf("127.0.0.1:%s", port),
+		Prefix:  "testNamespace",
+	}
+	client, err := statsd.NewClientWithConfig(c)
 	if err != nil {
 		fmt.Printf("Error connecting to statsd server: %v\n", err.Error())
 		return
@@ -43,13 +47,17 @@ func main() {
 
 		switch statsdType {
 		case "count":
-			client.Inc(name, value, sampleRate)
+			err = client.Inc(name, value, sampleRate)
+			fmt.Println("Failed to increment counter:", err)
 		case "gauge":
-			client.Gauge(name, value, sampleRate)
+			err = client.Gauge(name, value, sampleRate)
+			fmt.Println("Failed to submit/update gauge:", err)
 		case "gaugedelta":
-			client.GaugeDelta(name, value, sampleRate)
+			err = client.GaugeDelta(name, value, sampleRate)
+			fmt.Println("Failed to submit delta:", err)
 		case "timing":
-			client.Timing(name, value, sampleRate)
+			err = client.Timing(name, value, sampleRate)
+			fmt.Println("Failed to submit timing stat:", err)
 		default:
 			fmt.Printf("Unsupported operation: %s\n", statsdType)
 		}
