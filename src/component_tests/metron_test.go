@@ -34,7 +34,7 @@ func NewMetronServer() (*MetronServer, error) {
 	transportCreds := credentials.NewTLS(config)
 	mockMetron := newMockMetronIngressServer()
 
-	lis, err := net.Listen("tcp", ":0")
+	lis, err := net.Listen("tcp", ":0") //nolint:gosec
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func NewMetronServer() (*MetronServer, error) {
 	s := grpc.NewServer(grpc.Creds(transportCreds))
 	loggregator_v2.RegisterIngressServer(s, mockMetron)
 
-	go s.Serve(lis)
+	go s.Serve(lis) //nolint:errcheck
 
 	return &MetronServer{
 		port:     lis.Addr().(*net.TCPAddr).Port,

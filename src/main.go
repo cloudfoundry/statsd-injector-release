@@ -7,8 +7,6 @@ import (
 	"github.com/cloudfoundry/statsd-injector/profiler"
 )
 
-const defaultAPIVersion = "v1"
-
 func main() {
 	statsdHost := flag.String("statsd-host", "localhost", "The hostname the injector will listen on for statsd messages")
 	statsdPort := flag.Uint("statsd-port", 8125, "The UDP port the injector will listen on for statsd messages")

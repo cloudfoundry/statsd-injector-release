@@ -39,7 +39,7 @@ var _ = Describe("StatsdListener", func() {
 			statsdmsg := []byte("fake-origin.test.gauge:23|g\nfake-origin.other.thing:42|g\nfake-origin.sampled.gauge:17.5|g|@0.2")
 
 			f := func() int {
-				connection.Write(statsdmsg)
+				connection.Write(statsdmsg) //nolint:errcheck
 				return len(envelopeChan)
 			}
 			Eventually(f, 3).ShouldNot(Equal(0))
@@ -61,7 +61,7 @@ var _ = Describe("StatsdListener", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			f := func() int {
-				connection.Write(statsdmsg)
+				connection.Write(statsdmsg) //nolint:errcheck
 				return len(envelopeChan)
 			}
 			Eventually(f, 3).ShouldNot(Equal(0))
@@ -84,7 +84,7 @@ var _ = Describe("StatsdListener", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			f := func() int {
-				connection.Write(statsdmsg)
+				connection.Write(statsdmsg) //nolint:errcheck
 				return len(envelopeChan)
 			}
 			Eventually(f, 3).ShouldNot(Equal(0))
@@ -107,7 +107,7 @@ var _ = Describe("StatsdListener", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			f := func() int {
-				connection.Write(statsdmsg)
+				connection.Write(statsdmsg) //nolint:errcheck
 				return len(envelopeChan)
 			}
 			Eventually(f, 3).ShouldNot(Equal(0))
@@ -130,7 +130,7 @@ var _ = Describe("StatsdListener", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			f := func() int {
-				connection.Write(statsdmsg)
+				connection.Write(statsdmsg) //nolint:errcheck
 				return len(envelopeChan)
 			}
 			Eventually(f, 3).ShouldNot(Equal(0))
@@ -153,7 +153,7 @@ var _ = Describe("StatsdListener", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			f := func() int {
-				connection.Write(statsdmsg)
+				connection.Write(statsdmsg) //nolint:errcheck
 				return len(envelopeChan)
 			}
 			Eventually(f, 3).ShouldNot(Equal(0))
@@ -170,7 +170,7 @@ var _ = Describe("StatsdListener", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			f := func() int {
-				connection.Write(statsdmsg)
+				connection.Write(statsdmsg) //nolint:errcheck
 				return len(envelopeChan)
 			}
 			Eventually(f, 3).ShouldNot(Equal(0))

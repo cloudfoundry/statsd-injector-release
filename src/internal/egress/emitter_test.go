@@ -75,7 +75,7 @@ func keepWriting(c chan<- *loggregator_v2.Envelope, e *loggregator_v2.Envelope) 
 }
 
 func startServer() (string, *mockMetronIngressServer) {
-	lis, err := net.Listen("tcp", ":0")
+	lis, err := net.Listen("tcp", ":0") //nolint:gosec
 	if err != nil {
 		panic(err)
 	}
