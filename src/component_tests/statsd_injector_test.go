@@ -36,7 +36,7 @@ var _ = Describe("StatsdInjector", func() {
 	})
 
 	AfterEach(func() {
-		consumerServer.Stop()
+		consumerServer.Stop() //nolint:errcheck
 		cleanup()
 		gexec.CleanupBuildArtifacts()
 	})
@@ -54,7 +54,7 @@ var _ = Describe("StatsdInjector", func() {
 			for {
 				select {
 				case <-ticker.C:
-					connection.Write(statsdmsg)
+					connection.Write(statsdmsg) //nolint:errcheck
 				case <-done:
 					return
 				}

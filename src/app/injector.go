@@ -24,7 +24,6 @@ type Config struct {
 
 type Injector struct {
 	statsdPort uint
-	apiVersion string
 	metronPort uint
 
 	ca   string
