@@ -1,3 +1,0 @@
-# github.com/cactus/go-statsd-client/v5 v5.0.0
-## explicit; go 1.11
-github.com/cactus/go-statsd-client/v5/statsd
