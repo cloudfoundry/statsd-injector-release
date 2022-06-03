@@ -7,6 +7,7 @@ import (
 	"code.cloudfoundry.org/go-loggregator/v8/rpc/loggregator_v2"
 	"github.com/cloudfoundry/statsd-injector/internal/egress"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -35,7 +36,8 @@ var _ = Describe("Statsdemitter", func() {
 	Context("when the server is already listening", func() {
 		BeforeEach(func() {
 			serverAddr, mockServer = startServer()
-			emitter := egress.New(serverAddr, grpc.WithInsecure())
+			dialOpt := grpc.WithTransportCredentials(insecure.NewCredentials())
+			emitter := egress.New(serverAddr, dialOpt)
 
 			go emitter.Run(inputChan)
 		})
