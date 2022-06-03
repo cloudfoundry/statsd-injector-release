@@ -2,7 +2,6 @@ package component_tests_test
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"os/exec"
 	"time"
@@ -24,7 +23,8 @@ var _ = Describe("StatsdInjector", func() {
 	)
 
 	BeforeSuite(func() {
-		grpclog.SetLogger(log.New(GinkgoWriter, "", 0))
+		g := grpclog.NewLoggerV2(GinkgoWriter, GinkgoWriter, GinkgoWriter)
+		grpclog.SetLoggerV2(g)
 	})
 
 	BeforeEach(func() {
