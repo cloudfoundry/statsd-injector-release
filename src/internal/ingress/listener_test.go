@@ -7,7 +7,7 @@ import (
 
 	"github.com/cloudfoundry/statsd-injector/internal/ingress"
 
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
@@ -35,7 +35,7 @@ var _ = Describe("StatsdListener", func() {
 			connection.Close()
 		})
 
-		It("reads multiple gauges (on different lines) in the same packet", func() {
+		It("reads multiple gauges (on different lines) in the same packet", FlakeAttempts(5), func() {
 			statsdmsg := []byte("fake-origin.test.gauge:23|g\nfake-origin.other.thing:42|g\nfake-origin.sampled.gauge:17.5|g|@0.2")
 
 			f := func() int {
@@ -53,7 +53,7 @@ var _ = Describe("StatsdListener", func() {
 
 			Eventually(envelopeChan).Should(Receive(&receivedEnvelope))
 			checkValueMetric(receivedEnvelope, "fake-origin", "sampled.gauge", 87.5, "gauge")
-		}, 5)
+		})
 
 		It("processes gauge increment/decrement stats", func() {
 			statsdmsg := []byte("fake-origin.test.gauge:23|g\nfake-origin.test.gauge:+7|g\nfake-origin.test.gauge:-5|g")
@@ -78,7 +78,7 @@ var _ = Describe("StatsdListener", func() {
 			checkValueMetric(receivedEnvelope, "fake-origin", "test.gauge", 25, "gauge")
 		})
 
-		It("reads multiple timings (on different lines) in the same packet", func() {
+		It("reads multiple timings (on different lines) in the same packet", FlakeAttempts(5), func() {
 			statsdmsg := []byte("fake-origin.test.timing:23|ms\nfake-origin.other.thing:420|ms\nfake-origin.sampled.timing:71|ms|@0.1")
 			_, err := connection.Write(statsdmsg)
 			Expect(err).ToNot(HaveOccurred())
@@ -99,9 +99,9 @@ var _ = Describe("StatsdListener", func() {
 
 			Eventually(envelopeChan).Should(Receive(&receivedEnvelope))
 			checkValueMetric(receivedEnvelope, "fake-origin", "sampled.timing", 710, "ms")
-		}, 5)
+		})
 
-		It("reads multiple counters (on different lines) in the same packet", func() {
+		It("reads multiple counters (on different lines) in the same packet", FlakeAttempts(5), func() {
 			statsdmsg := []byte("fake-origin.test.counter:23|c\nfake-origin.other.thing:420|c\nfake-origin.sampled.counter:71|c|@0.1")
 			_, err := connection.Write(statsdmsg)
 			Expect(err).ToNot(HaveOccurred())
@@ -122,7 +122,7 @@ var _ = Describe("StatsdListener", func() {
 
 			Eventually(envelopeChan).Should(Receive(&receivedEnvelope))
 			checkValueMetric(receivedEnvelope, "fake-origin", "sampled.counter", 710, "counter")
-		}, 5)
+		})
 
 		It("processes counter increment/decrement stats", func() {
 			statsdmsg := []byte("fake-origin.test.counter:23|c\nfake-origin.test.counter:+7|c\nfake-origin.test.counter:-5|c")
