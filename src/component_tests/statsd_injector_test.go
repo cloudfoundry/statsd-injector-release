@@ -8,9 +8,7 @@ import (
 
 	"code.cloudfoundry.org/go-loggregator/v8/rpc/loggregator_v2"
 
-	"google.golang.org/grpc/grpclog"
-
-	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gexec"
 )
@@ -21,11 +19,6 @@ var _ = Describe("StatsdInjector", func() {
 		statsdAddr     string
 		cleanup        func()
 	)
-
-	BeforeSuite(func() {
-		g := grpclog.NewLoggerV2(GinkgoWriter, GinkgoWriter, GinkgoWriter)
-		grpclog.SetLoggerV2(g)
-	})
 
 	BeforeEach(func() {
 		var err error
