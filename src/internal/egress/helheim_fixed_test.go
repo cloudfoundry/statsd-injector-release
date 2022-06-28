@@ -12,6 +12,8 @@ import (
 )
 
 type mockMetronIngressServer struct {
+	loggregator_v2.UnimplementedIngressServer
+
 	SenderCalled chan bool
 	SenderInput  struct {
 		Arg0 chan loggregator_v2.Ingress_SenderServer
