@@ -3,7 +3,7 @@ module github.com/cloudfoundry/statsd-injector
 go 1.17
 
 require (
-	code.cloudfoundry.org/go-loggregator/v8 v8.0.6-0.20220627224345-4b007d7cf474
+	code.cloudfoundry.org/go-loggregator/v9 v9.0.2
 	code.cloudfoundry.org/tlsconfig v0.0.0-20220621140725-0e6fbd869921
 	git.sr.ht/~nelsam/hel/v3 v3.0.4
 	github.com/onsi/ginkgo/v2 v2.1.4
@@ -12,7 +12,6 @@ require (
 )
 
 require (
-	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/pprof v0.0.0-20210407192527-94a9f03dee38 // indirect
