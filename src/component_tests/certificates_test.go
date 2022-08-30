@@ -1,8 +1,8 @@
 package component_tests_test
 
 import (
-	"io/ioutil"
 	"log"
+	"os"
 )
 
 func MetronCertPath() string {
@@ -26,7 +26,7 @@ func CAFilePath() string {
 }
 
 func createTempFile(contents string) string {
-	tmpfile, err := ioutil.TempFile("", "")
+	tmpfile, err := os.CreateTemp("", "")
 
 	if err != nil {
 		log.Fatal(err)
