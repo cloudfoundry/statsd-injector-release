@@ -3,29 +3,37 @@ package component_tests_test
 import (
 	"log"
 	"os"
+
+	"code.cloudfoundry.org/tlsconfig/certtest"
 )
 
-func MetronCertPath() string {
-	return createTempFile(metronCrt)
+func GenerateCertKey(name string, ca *certtest.Authority) (string, string) {
+	cert, err := ca.BuildSignedCertificate(name, certtest.WithDomains(name))
+	if err != nil {
+		log.Fatal(err)
+	}
+	certBytes, keyBytes, err := cert.CertificatePEMAndPrivateKey()
+	if err != nil {
+		log.Fatal(err)
+	}
+	return createTempFile(certBytes), createTempFile(keyBytes)
 }
 
-func MetronKeyPath() string {
-	return createTempFile(metronKey)
+func GenerateCA() (*certtest.Authority, string) {
+	ca, err := certtest.BuildCA("metron")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	caBytes, err := ca.CertificatePEM()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return ca, createTempFile(caBytes)
 }
 
-func StatsdCertPath() string {
-	return createTempFile(statsdCrt)
-}
-
-func StatsdKeyPath() string {
-	return createTempFile(statsdKey)
-}
-
-func CAFilePath() string {
-	return createTempFile(caCert)
-}
-
-func createTempFile(contents string) string {
+func createTempFile(contents []byte) string {
 	tmpfile, err := os.CreateTemp("", "")
 
 	if err != nil {
@@ -41,152 +49,3 @@ func createTempFile(contents string) string {
 
 	return tmpfile.Name()
 }
-
-var (
-	metronCrt = `
------BEGIN CERTIFICATE-----
-MIIEOTCCAiGgAwIBAgIQRuj/j2cb1mMSbza+yNlFOTANBgkqhkiG9w0BAQsFADAY
-MRYwFAYDVQQDEw1sb2dncmVnYXRvckNBMB4XDTIxMDQyMjIzNTA1NFoXDTIyMTAy
-MjIzNDgzMVowETEPMA0GA1UEAxMGbWV0cm9uMIIBIjANBgkqhkiG9w0BAQEFAAOC
-AQ8AMIIBCgKCAQEAuEb9rx3cyzZ5jjGW1MOr5FmDfoskKuVxloSMamEwiAneT2wb
-HOlgtiaa0h2iLxNb9WxxtislDwVxkSIx+V1OBdWG3ilf1ZHbNZetDDYpsKOiehWd
-fxRKKUfxU0eEiR47IaK2xI4DBksXP6dDQRdImt5TyRDDnkQPB6UQDmvUsfxQKXM2
-aKb3jTiL6JM2FeYMTNbWPr4UXcaFhuyWEFxTtO/acHnn0E5cyoacHuqvH+E/2BDh
-Hae8u7AjE4hwT6rrOUFR5EmUAcTMFGHc0GaseP9ZywhRV3MUkX6xW4SFuPZN8E9R
-1uXX51SBo0/4MXxK4WIiVM4ZqV1bIWRybrYmeQIDAQABo4GFMIGCMA4GA1UdDwEB
-/wQEAwIDuDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwHQYDVR0OBBYE
-FMxC7JvN+G4gMX4fEi7UuzfpCoLyMB8GA1UdIwQYMBaAFDRqd8kRgkJqYiE8eNX1
-sLppsCXPMBEGA1UdEQQKMAiCBm1ldHJvbjANBgkqhkiG9w0BAQsFAAOCAgEAeoFS
-pGd0JXLnCt5Xq+sXsZsl+8n/n0stux62pufP5ZA6mbnuc6usluMZcdix9n++/qyC
-Zvjs0dx8oatPoVhXqxcVNjJo9AYej+QsTiuO1dfOKvRH/pyaP4kNnwUzuoTMZ5rL
-wHc92opMlAI04oJmpq063He2Ni/z14CBn2a+vsa1e14izlj7AG8JCB9Bdqa8dx9j
-Y4ZHYnNVqowuDgQ76OHw/YV9GSHabA9DX7vhbpKHGxe7JoZ7vgVBxy/iYaFs1aAx
-u7ZAT/MdsmgMnCP7ldhYUaFbbtUAcMaAuLG/51Fg2HKtklj1IEWf5IbeREjZsswG
-1CHSDLzTZAzTmLK0ksvhidqxFTSvTOJ01vFL6RNndWFT29LrelEDDFnMQZ8NLaiX
-xVnwFIuWePIKlgaLYeEBBzkG/wByE0bW3rQKkfbG4yhld56SzHzrX2tWPfY0zjS1
-E+t/kswC7BIS3U+OBx/UbZaK6aXyNbfhOgOXDpBPJ2y3LNGLQL8Mp5OvgB0cDJxE
-jsLeJTJ7tVSyQM/nk+hdIyAnHbWUg3Nfvr8IPN64jNSsGCN3De5bfStEqrkyxxSU
-dXeNgszWnUaJKusj2xTmsyk1XaUdvFFqekEdjyEUlmS/PztA2ZYP9zBo7UkoWl9/
-oSQ4t3HjFx6VG5xx91fVchBddJtASb7EhJCRMY4=
------END CERTIFICATE-----
-`
-	metronKey = `
------BEGIN RSA PRIVATE KEY-----
-MIIEowIBAAKCAQEAuEb9rx3cyzZ5jjGW1MOr5FmDfoskKuVxloSMamEwiAneT2wb
-HOlgtiaa0h2iLxNb9WxxtislDwVxkSIx+V1OBdWG3ilf1ZHbNZetDDYpsKOiehWd
-fxRKKUfxU0eEiR47IaK2xI4DBksXP6dDQRdImt5TyRDDnkQPB6UQDmvUsfxQKXM2
-aKb3jTiL6JM2FeYMTNbWPr4UXcaFhuyWEFxTtO/acHnn0E5cyoacHuqvH+E/2BDh
-Hae8u7AjE4hwT6rrOUFR5EmUAcTMFGHc0GaseP9ZywhRV3MUkX6xW4SFuPZN8E9R
-1uXX51SBo0/4MXxK4WIiVM4ZqV1bIWRybrYmeQIDAQABAoIBABOfo7Y5RODzDSDC
-USCZMb3gdmtMX+6dfmob9WQCs4tZGa51gbGjfKQJGmWTuEixFBLfmIBgudKOrthY
-vt+iOwPOCE2yND1nCeP8IfZx8iCYXF4J3TrCK1+YBK/spsV/Taa4UCRARzwtVO13
-X2cYFqg/UsbPnTVGZB9ZSYtvmjfVyw6UfKJihDInPIJIWyDYJZGiCWtLzKhmc2/7
-Ii8nrlNAfaK0yF9OM0nh3unQRte/HhpElViJ4IdNKHMcFXDy806dhcWUAmc/W8A4
-aIZ/itkBjqdMREjLD8BUFJYoLeWTHQYG2d4Qs2kvjk5QLy+Q72Oiy8QzdhsFoPQj
-FV/Kpd0CgYEAwHjfGWi0KXfgErY/wpfeEndtkh20SGMJLbGF8dJtEvA2mvI4MjvH
-Lifo/FLcjA46lLNmDmDnJEAMDMTrpWMRpHq7+ac1HvyizFFlyNVBQ9l96yuPlfEX
-bX+tMxL5udXYav0kqIlMqxUC+KZexA7ifq9FcINNqDoMvbLCMMjaxb8CgYEA9Rmw
-DoPsQSDrzHHKNe72nERsfgANuTDzauRh+hpI/rUkCCuZFOl/fnN5Y/HLIe5UB9wf
-cqCcBZEvOqYKoit+O5KCZV3q+JZKRn+94CdO4ftguYglJniKEkZ2YS+uQ/Rksk4a
-yDqKMQtJOiCwS7sCAudP0FZj7iu4f29wf2MrUccCgYAZvRA4maPeF8XDOtPz9dMg
-rQ/eBlLhizzi+2ZqHDWx3qWuus2BCjVsmrGxbHNJ121GDWeMbLD8TARQgNTyXPkz
-Aaa5j/6ukiJDKG9wF/SOWjtYg47EAmWbowNKXTNAArTaOdf5IcM67ahkD/uERGlN
-f6rNjQGJiZnClHEbjQCUiQKBgAc9iwXiv8fswQp5EhAlzwMuwkW2mrEt0QMHXB2X
-STC9CSN0pkEH5MxHfP6G1glakQDqb8NjGzjO4SZKYWYJAuGfolp8O8S8K9WJUIKe
-pqXmVyUj8HUCepGvoy+byPoY7iCWThQ8JnjsbG1bKdoS3CxZyPHOm4UdpYWeNSSO
-OWlhAoGBALDMWw1HcZQUlrKcIUgP++HyejDlIfT2dZHoXOAFX0p8Pc+8bwAQxWD9
-cDvgrlpiwgXMKPNgf1JaNJKudPYIx9TdEZn3fpdyItCb8XTz8pwjdv7WFqcew+In
-RQ+aWiDMnmuTYfePR8mnoNWOqSh+nbg7njeZyA3hf7wfWuWHGVpc
------END RSA PRIVATE KEY-----
-`
-
-	statsdCrt = `
------BEGIN CERTIFICATE-----
-MIIESjCCAjKgAwIBAgIRANOfrQWCAAtPTilUF7gVZ7QwDQYJKoZIhvcNAQELBQAw
-GDEWMBQGA1UEAxMNbG9nZ3JlZ2F0b3JDQTAeFw0yMTA0MjIyMzUwMjlaFw0yMjEw
-MjIyMzQ4MzFaMBkxFzAVBgNVBAMTDnN0YXRzZGluamVjdG9yMIIBIjANBgkqhkiG
-9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx8dvuzLstdta/7d7yToLMPdX/QZFHJs4v/MF
-HZDqnvbRAw5FqjeGNY+4EAUU/X2dJFiVZBHu5970Sd6CQ9qE6HY1qR5CEyQQ05/O
-1mkIdtcWrVcYynM5WDF9wKh8SlVabkSzfbWmhHUtswHbPbpHnGcpHWzleKiTrwFC
-w5gPYGgj4Nt1QbUDp94orDzni1AHpoLno8LQE/G6IeApvvDNtB04OSXpKpnRjffV
-YWuKpyHMWGqc0UNXFHY7mtCfMOJHuoIGfdbq+VQRxSX6sRNt1I3Pp7+r59svzBNm
-1qcU1JVJToYo+1aaLbE1jai/u0ad4U44IT5hRtbwVR9kUpETuwIDAQABo4GNMIGK
-MA4GA1UdDwEB/wQEAwIDuDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIw
-HQYDVR0OBBYEFPSt2TcUt2rOkgzFc3RiPTNJll5ZMB8GA1UdIwQYMBaAFDRqd8kR
-gkJqYiE8eNX1sLppsCXPMBkGA1UdEQQSMBCCDnN0YXRzZGluamVjdG9yMA0GCSqG
-SIb3DQEBCwUAA4ICAQATWW+e4RdkA4QYvIMkyVzF4wMV1oMKLNuSf7u1HvHXSZp3
-kyKyLWagnlaQD6UcaMqHzaCbsrE+xRphhDKpVnj/ifZbAoLIJVuRvLEvlLwfN/H/
-r/PEjla9SBTHhy5sbGsYA2LOVDHPH1svwTVihHlW1BUQEd6Od2D6Ci57H3BwTxx1
-OX9L/bSL3zzJpNB4uRNTOMxPiwm3tsWa0oYHajwtfvGTqXijb00zJsV84GxW+nE8
-oEpcJN57BdzW4W7acMcm3bcg4bHkCehFfIIlEjNiB/KnlRrDsp1m5M0SKgWl8pEs
-VZkXGj+7cPjEk/ZK11Oxz2MQpWa5+X9HwvWSFMnR/1190sTrh4FxYzwjmPTOvlHU
-YWvj5VqtHWp5itaym7vETrdCpCMGOSMvA3IAh8Ds8mUkTJ1B4xumb7fOp9VbrF57
-Bx5peycJGRCEolOvpHH85kzp5DyE3+WZRxTdU7vGoSOrBzBXH3YAWMJ6w/OUqi5p
-vW9TH5BqQtQ10tMLOmax4Zbiz2zDOUth4ZEgzh45aDcciv3XRuMDDB/Jp2omUP8a
-NXMkQyprjsHZeHwKN7hU2Bz5cwNslUvzUpYiWqPoatlofIYQBOLx8U3NKyFjNC94
-iYksoDtYZTnJDgbQeGWKO46iN4Fm2xd74O5qYPPXJhtVNnc0+rokGQeCdTeGnA==
------END CERTIFICATE-----
-`
-
-	statsdKey = `
------BEGIN RSA PRIVATE KEY-----
-MIIEowIBAAKCAQEAx8dvuzLstdta/7d7yToLMPdX/QZFHJs4v/MFHZDqnvbRAw5F
-qjeGNY+4EAUU/X2dJFiVZBHu5970Sd6CQ9qE6HY1qR5CEyQQ05/O1mkIdtcWrVcY
-ynM5WDF9wKh8SlVabkSzfbWmhHUtswHbPbpHnGcpHWzleKiTrwFCw5gPYGgj4Nt1
-QbUDp94orDzni1AHpoLno8LQE/G6IeApvvDNtB04OSXpKpnRjffVYWuKpyHMWGqc
-0UNXFHY7mtCfMOJHuoIGfdbq+VQRxSX6sRNt1I3Pp7+r59svzBNm1qcU1JVJToYo
-+1aaLbE1jai/u0ad4U44IT5hRtbwVR9kUpETuwIDAQABAoIBAG8b429Ivk/SRMUN
-5iGfT5QXLG+D6jIjvic7YK/15hctDEfXyzUFFnZ5jRQTz33APAJ35fY25xk8bb8b
-qnVUdjDXdbauJm+A0n7wVVf4KIX30Bvt4dLOzKjZNahNzHqHB/ll6jHTMl5e0WDK
-eoXVMXiyAzLjWqiFkUV2vQwNaRfjN35IUhEeLd77vwiJulhQVUu6+2PfmYEItTkc
-9GouFFFtW1Po/0CiF0GOx5KvgS+zSQR9RUmVP/lYmgVI4wuhplhV6OTMzPEKIFOS
-rBSQ0zMCUJ4IPG5KYL/YGCXPQivSs4txtAAGBCqCHexHCY9J0dZ1/AehRUakM8oN
-HLhAOIkCgYEA77NqIObUv2mDyHRuZZzbEaqoVSmTcgdYBe/+BJSE819yonATBVIp
-q/4sBiptvuGTU+OxcDJQyj/KawJbDrOMRBKs2FQVFhBvvHzrYsupxwrEkpgLexGE
-ktx8SbZBVRJvi/d7Cl1uP8EiLNY1eubEDiJ/fmzHC16siGDOAxycP20CgYEA1V0V
-oMnuGlx4+Fv8iI+2Qt6ntQGB0h2GjIjKg64fa2QLCKABSbeSmQt1d+4ryzq9knrK
-JQlZkvjdxT8QivyOFUjjGWy6fnHEAiPRqh0L7nF50buMlsXXaPB0jRbLIGa+jC5y
-H5EhuhoHzOFqgTHmI9WJb10gbWMaEskU83dBHscCgYEAx8WkAd/gF9d8uagwCgf8
-nHC68p8//50XQ3uNHYwacitugusdLyYXDP08+7aI2Llv7E6sJ3IH20fnD+Bau5nw
-oRtfarxJBqaUOWdzVlefHABhbDvD9cHX1/5ip5x6PsiqpuCPb0gHBqOUNAIjeFaz
-t4QQ9fD6wwMYkGD90aIaptECgYAWVI6t7FRiJ+l1PNNaS4gsyXbN5+F5ZyOs06g2
-TeP17luFRJG98FuEbwGVUrT8qSIsEXPUmnzod+ll+mq10SbhrWYvRATktO1pt+v6
-nN2hz/iK7dER+pTH49qe5ZLOylIJA9dn3F2mR5EnbTQjX2CRwYiHwjxhlmylKKxr
-qsCDAwKBgGSbF1IkfwL7SOuhrW9cWQsv/iqSaOIPQva8o5+7268HNju6pSa9rOzj
-MdWz2DvD0Hn2+lwpcCrX7oKiy356e8/Yj1hTEpamM946LCg+1edSJexpT5AL0Voz
-8BXCVhiYWHkDeYdukn0jy/Zzjgw5x6djKvu5OpyKKqwOhjqjHIAx
------END RSA PRIVATE KEY-----
-`
-
-	caCert = `
------BEGIN CERTIFICATE-----
-MIIE8DCCAtigAwIBAgIBATANBgkqhkiG9w0BAQsFADAYMRYwFAYDVQQDEw1sb2dn
-cmVnYXRvckNBMB4XDTIxMDQyMjIzNDgzNFoXDTIyMTAyMjIzNDgzMlowGDEWMBQG
-A1UEAxMNbG9nZ3JlZ2F0b3JDQTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoC
-ggIBAKmS3v0QEnvPZIc43dSk0ugGq/zLmICSy4ZbEfBdAHI9i0sEhrkSLFnUtLF4
-lyfZ+cdYh/tGOXteRVPnNKNybLuQwrfFv8eO4y1klvDDPE6LDqgA5WJxN9jUDs+f
-gbW04kBOzc6zLAoULMM21L4K03ScjPNFAk6vFjn2d5mDr4IXLEa7bA4xfFml8RRt
-lqKZKUPqdElbfDRS7lYmO5OJOau9TY2JSqnxpLt/LxZUAAPtTT6BtCzrRn0xph5j
-YcrW1Hiia4ffcmFkEjEBTj67sAGHDA1iaN9TQagJlqhe4Ij0bRdjMX8e7aC9YCNB
-Hl8khny3aa7UGL29HpasRyi7fLZwUuHUUH6DV20s9aNhf8lq20dagPK4PaCQdwV/
-jk5+1NaDZWuc6gSISxHU6VDJKM4MVQ9+voejwfkOr1B/O7PSoszpXfkTCX/lH60W
-Q1Gxr7Flb+Qhxds/7/3yO4e9obzY7VqoTcB7Lb5ta32JuGka0wWE4XbNLTvy1wsB
-ceH5TGlnjQu2Cl2WhfoD7xQHGEeQOm5qnbHUWiOLm/ILiTocb5OpkGNt5HifCgMM
-canq75MCWJjd70xVyaTQOei54eEm3LsFFl1lFN54gDG0hpSOri/PudBdUEAOBQVG
-SzRNlncKMNHZwuZcAJ+xOhIgaLsJyYlumauOu2EBO3tpKL5nAgMBAAGjRTBDMA4G
-A1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBQ0anfJ
-EYJCamIhPHjV9bC6abAlzzANBgkqhkiG9w0BAQsFAAOCAgEAIr3ptoP9IXgyasm2
-frlSbNaviqeOXqD1G5MsIXehOJLm3JhcCQH9E8iXTkzUjPG4dzkdcIwfHQ6iilPo
-lNjAIbQSBTtkkTLc1Nd5kg9esm3U62Hvk7lTMmDOl9sM4GK8dhy0iLzKe1Bsp1V+
-26/+G+7bOOuIWKR1eWeN+pKPzRkAMCgW95Vaq4M2PVmmTvXj92ZZRspy33a2a93N
-4jQ3b57tzwczwBEeSCxn592V9aTkkyq+eN06vVNzrj+lvUuae7hcr51qsefqScpu
-Q4hDyV1Ije1+5yfDawA/3w+kAY8jQLGSs+uh5aFJzx1rVReoOxDPZoY88vkzDt/2
-8e89wkiTwGUCISzzFq9FYAheWYQZu6NSrXkSC8gdMmZrQc+pL3idThQKnb3iJeCa
-Wnusn1d9ER7+BvnrsCtvtOuoPGHtEGL1wPGgmeu1kdlguhpydTg4g3N1KJA2SSLM
-DDoGMseZqpuU1mWyFWXTJt8lRVc3q1sAjXQdztEWJ4t4WP2LA2yZ1dc6om+aQLjA
-qXNwJF46MzFtUikkb+A5OKcUdXaA7sablNHa4HqJnznSPRguGE1/MgrXQWKR9jL+
-EX7/QdCVdKoXUP8cJ6PgWS1kRhjheoXOhnstEobPuA+CFd9yQ/g1vCe14s5aHck8
-0NqLdUmEgrduCupvkp94NfNa7K0=
------END CERTIFICATE-----
-`
-)

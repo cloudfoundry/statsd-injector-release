@@ -5,6 +5,7 @@ import (
 	"net"
 
 	"code.cloudfoundry.org/tlsconfig"
+	"code.cloudfoundry.org/tlsconfig/certtest"
 
 	"code.cloudfoundry.org/go-loggregator/v9/rpc/loggregator_v2"
 
@@ -19,12 +20,13 @@ type MetronServer struct {
 	Metron   *mockMetronIngressServer
 }
 
-func NewMetronServer() (*MetronServer, error) {
+func NewMetronServer(ca *certtest.Authority, caFile string) (*MetronServer, error) {
+	certPath, keyPath := GenerateCertKey("metron", ca)
 	config, err := tlsconfig.Build(
 		tlsconfig.WithInternalServiceDefaults(),
-		tlsconfig.WithIdentityFromFile(MetronCertPath(), MetronKeyPath()),
+		tlsconfig.WithIdentityFromFile(certPath, keyPath),
 	).Client(
-		tlsconfig.WithAuthorityFromFile(CAFilePath()),
+		tlsconfig.WithAuthorityFromFile(caFile),
 		tlsconfig.WithServerName("metron"),
 	)
 	if err != nil {

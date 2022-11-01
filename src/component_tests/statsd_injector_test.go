@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"code.cloudfoundry.org/go-loggregator/v9/rpc/loggregator_v2"
+	"code.cloudfoundry.org/tlsconfig/certtest"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -22,10 +23,11 @@ var _ = Describe("StatsdInjector", func() {
 
 	BeforeEach(func() {
 		var err error
-		consumerServer, err = NewMetronServer()
+		ca, caFile := GenerateCA()
+		consumerServer, err = NewMetronServer(ca, caFile)
 		Expect(err).ToNot(HaveOccurred())
 
-		statsdAddr, cleanup = startStatsdInjector(fmt.Sprint(consumerServer.Port()))
+		statsdAddr, cleanup = startStatsdInjector(fmt.Sprint(consumerServer.Port()), ca, caFile)
 	})
 
 	AfterEach(func() {
@@ -74,18 +76,19 @@ var _ = Describe("StatsdInjector", func() {
 	})
 })
 
-func startStatsdInjector(metronPort string) (statsdAddr string, cleanup func()) {
+func startStatsdInjector(metronPort string, ca *certtest.Authority, caFile string) (statsdAddr string, cleanup func()) {
 	port := fmt.Sprint(testPort())
 
 	path, err := gexec.Build("github.com/cloudfoundry/statsd-injector")
 	Expect(err).ToNot(HaveOccurred())
 
+	certPath, keyPath := GenerateCertKey("statsd", ca)
 	cmd := exec.Command(path,
 		"-statsd-port", port,
 		"-metron-port", metronPort,
-		"-ca", CAFilePath(),
-		"-cert", StatsdCertPath(),
-		"-key", StatsdKeyPath(),
+		"-ca", caFile,
+		"-cert", certPath,
+		"-key", keyPath,
 	)
 	session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 	Expect(err).ShouldNot(HaveOccurred())
