@@ -8,7 +8,7 @@ require (
 	git.sr.ht/~nelsam/hel/v3 v3.0.4
 	github.com/onsi/ginkgo/v2 v2.7.0
 	github.com/onsi/gomega v1.25.0
-	google.golang.org/grpc v1.52.0
+	google.golang.org/grpc v1.52.3
 )
 
 require (
