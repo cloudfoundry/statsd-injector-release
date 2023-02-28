@@ -6,7 +6,7 @@ require (
 	code.cloudfoundry.org/go-loggregator/v9 v9.0.3
 	code.cloudfoundry.org/tlsconfig v0.0.0-20220621140725-0e6fbd869921
 	git.sr.ht/~nelsam/hel/v3 v3.0.4
-	github.com/onsi/ginkgo/v2 v2.8.3
+	github.com/onsi/ginkgo/v2 v2.8.4
 	github.com/onsi/gomega v1.27.1
 	google.golang.org/grpc v1.53.0
 )
