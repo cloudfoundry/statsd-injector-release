@@ -41,7 +41,7 @@ github.com/google/pprof/profile
 github.com/inconshreveable/mousetrap
 # github.com/kr/text v0.2.0
 ## explicit
-# github.com/onsi/ginkgo/v2 v2.8.4
+# github.com/onsi/ginkgo/v2 v2.9.0
 ## explicit; go 1.18
 github.com/onsi/ginkgo/v2
 github.com/onsi/ginkgo/v2/config
@@ -93,6 +93,7 @@ github.com/square/certstrap/pkix
 golang.org/x/mod/semver
 # golang.org/x/net v0.7.0
 ## explicit; go 1.17
+golang.org/x/net/context
 golang.org/x/net/html
 golang.org/x/net/html/atom
 golang.org/x/net/html/charset
