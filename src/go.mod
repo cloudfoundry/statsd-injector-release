@@ -6,14 +6,14 @@ require (
 	code.cloudfoundry.org/go-loggregator/v9 v9.0.4
 	code.cloudfoundry.org/tlsconfig v0.0.0-20220621140725-0e6fbd869921
 	git.sr.ht/~nelsam/hel/v3 v3.0.4
-	github.com/onsi/ginkgo/v2 v2.9.1
-	github.com/onsi/gomega v1.27.3
+	github.com/onsi/ginkgo/v2 v2.9.2
+	github.com/onsi/gomega v1.27.4
 	google.golang.org/grpc v1.54.0
 )
 
 require (
 	github.com/go-logr/logr v1.2.3 // indirect
-	github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0 // indirect
+	github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/pprof v0.0.0-20210407192527-94a9f03dee38 // indirect
