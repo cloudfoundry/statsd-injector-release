@@ -45,7 +45,7 @@ func (s *StatsdEmitter) Run(inputChan chan *loggregator_v2.Envelope) {
 }
 
 func startClient(addr string, opts []grpc.DialOption) (loggregator_v2.IngressClient, io.Closer) {
-	conn, err := grpc.Dial(addr, opts...)
+	conn, err := grpc.NewClient(addr, opts...)
 	if err != nil {
 		log.Fatalf("unable to establish client (%s): %s", addr, err)
 	}
