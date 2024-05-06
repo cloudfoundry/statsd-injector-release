@@ -6,7 +6,7 @@ toolchain go1.21.9
 
 require (
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
-	code.cloudfoundry.org/tlsconfig v0.0.0-20240427164042-d6180ef19863
+	code.cloudfoundry.org/tlsconfig v0.0.0-20240504164951-c74da1f146df
 	git.sr.ht/~nelsam/hel/v3 v3.0.4
 	github.com/onsi/ginkgo/v2 v2.17.2
 	github.com/onsi/gomega v1.33.1
@@ -32,8 +32,8 @@ require (
 	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
-	golang.org/x/sys v0.19.0 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/sys v0.20.0 // indirect
+	golang.org/x/text v0.15.0 // indirect
 	golang.org/x/tools v0.20.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240429193739-8cf5692501f6 // indirect
 	google.golang.org/protobuf v1.34.0 // indirect
