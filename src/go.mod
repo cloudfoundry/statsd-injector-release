@@ -6,7 +6,7 @@ toolchain go1.21.10
 
 require (
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
-	code.cloudfoundry.org/tlsconfig v0.0.0-20240516170203-d50b3d56ba06
+	code.cloudfoundry.org/tlsconfig v0.0.0-20240522170710-79df114af82a
 	git.sr.ht/~nelsam/hel/v3 v3.0.4
 	github.com/onsi/ginkgo/v2 v2.18.0
 	github.com/onsi/gomega v1.33.1
@@ -27,7 +27,7 @@ require (
 	github.com/spf13/cobra v1.8.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/square/certstrap v1.3.0 // indirect
-	go.step.sm/crypto v0.45.0 // indirect
+	go.step.sm/crypto v0.45.1 // indirect
 	golang.org/x/crypto v0.23.0 // indirect
 	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/net v0.25.0 // indirect
