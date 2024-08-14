@@ -1,7 +1,7 @@
 # code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 ## explicit; go 1.21
 code.cloudfoundry.org/go-loggregator/v9/rpc/loggregator_v2
-# code.cloudfoundry.org/tlsconfig v0.0.0-20240808182450-b1b581e211a2
+# code.cloudfoundry.org/tlsconfig v0.1.0
 ## explicit; go 1.21
 code.cloudfoundry.org/tlsconfig
 code.cloudfoundry.org/tlsconfig/certtest
