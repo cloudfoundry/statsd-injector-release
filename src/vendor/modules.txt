@@ -37,7 +37,7 @@ github.com/google/pprof/profile
 github.com/inconshreveable/mousetrap
 # github.com/kr/text v0.2.0
 ## explicit
-# github.com/onsi/ginkgo/v2 v2.20.0
+# github.com/onsi/ginkgo/v2 v2.20.1
 ## explicit; go 1.20
 github.com/onsi/ginkgo/v2
 github.com/onsi/ginkgo/v2/config
@@ -111,7 +111,7 @@ golang.org/x/crypto/salsa20/salsa
 golang.org/x/crypto/scrypt
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
-# golang.org/x/exp v0.0.0-20240808152545-0cdaa3abc0fa
+# golang.org/x/exp v0.0.0-20240823005443-9b4947da3948
 ## explicit; go 1.20
 golang.org/x/exp/constraints
 golang.org/x/exp/slices
@@ -181,7 +181,7 @@ golang.org/x/tools/internal/stdlib
 golang.org/x/tools/internal/tokeninternal
 golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/versions
-# google.golang.org/genproto/googleapis/rpc v0.0.0-20240820151423-278611b39280
+# google.golang.org/genproto/googleapis/rpc v0.0.0-20240823204242-4ba0660f739c
 ## explicit; go 1.21
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.65.0
