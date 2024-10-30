@@ -9,7 +9,7 @@ require (
 	code.cloudfoundry.org/tlsconfig v0.7.0
 	git.sr.ht/~nelsam/hel/v3 v3.0.4
 	github.com/onsi/ginkgo/v2 v2.20.2
-	github.com/onsi/gomega v1.34.2
+	github.com/onsi/gomega v1.35.0
 	google.golang.org/grpc v1.67.1
 )
 
