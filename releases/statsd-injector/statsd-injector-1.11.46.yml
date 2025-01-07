@@ -1,0 +1,27 @@
+name: statsd-injector
+version: 1.11.46
+commit_hash: d5a5fce0
+uncommitted_changes: false
+jobs:
+- name: statsd_injector
+  version: b298725cbb84f2e692ad6d6605d4efe02b73139dd9f2f53f08e1861352d764b5
+  fingerprint: b298725cbb84f2e692ad6d6605d4efe02b73139dd9f2f53f08e1861352d764b5
+  sha1: sha256:b1d8655c91dfe88f16eaf39f542ed812cfdda7012ca24f6e9c4c2956181e7906
+  packages:
+  - statsd_injector
+packages:
+- name: golang-1.23-linux
+  version: 14f95d7b762c61087eae7534ad5f78c978102ef1537cdf3e0e9c71efd401182b
+  fingerprint: 14f95d7b762c61087eae7534ad5f78c978102ef1537cdf3e0e9c71efd401182b
+  sha1: sha256:a24290f242acc2d4eb4c47208a90fee3c7cec12951fcb819e536aae1ecafdcb2
+  dependencies: []
+- name: statsd_injector
+  version: bae9f89ec94fb28321fb027aa69aacb1c2f8bb9c0e4e22cc107597eea5f3862b
+  fingerprint: bae9f89ec94fb28321fb027aa69aacb1c2f8bb9c0e4e22cc107597eea5f3862b
+  sha1: sha256:f0dd60c9110495c3c82e48b74f9950bd50fc39ffbeed53d95c8f2e40f729202f
+  dependencies:
+  - golang-1.23-linux
+license:
+  version: a0f4e4a54affb3bba6eb73abfdd5144f1b2ba169a408c19825243cb5df65ad85
+  fingerprint: a0f4e4a54affb3bba6eb73abfdd5144f1b2ba169a408c19825243cb5df65ad85
+  sha1: sha256:fbfa0deb90c97731bc7c4d2f516d99382b40bbca2630a7e5d7689a249f93acd1
