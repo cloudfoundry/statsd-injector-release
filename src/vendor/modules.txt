@@ -1,8 +1,8 @@
 # code.cloudfoundry.org/go-loggregator/v9 v9.2.1
 ## explicit; go 1.21
 code.cloudfoundry.org/go-loggregator/v9/rpc/loggregator_v2
-# code.cloudfoundry.org/tlsconfig v0.18.0
-## explicit; go 1.22
+# code.cloudfoundry.org/tlsconfig v0.19.0
+## explicit; go 1.23.0
 code.cloudfoundry.org/tlsconfig
 code.cloudfoundry.org/tlsconfig/certtest
 # filippo.io/edwards25519 v1.1.0
@@ -29,7 +29,7 @@ github.com/google/go-cmp/cmp/internal/diff
 github.com/google/go-cmp/cmp/internal/flags
 github.com/google/go-cmp/cmp/internal/function
 github.com/google/go-cmp/cmp/internal/value
-# github.com/google/pprof v0.0.0-20250208200701-d0013a598941
+# github.com/google/pprof v0.0.0-20250302191652-9094ed2288e7
 ## explicit; go 1.22
 github.com/google/pprof/profile
 # github.com/inconshreveable/mousetrap v1.1.0
@@ -88,7 +88,7 @@ github.com/spf13/pflag
 # github.com/square/certstrap v1.3.0
 ## explicit; go 1.18
 github.com/square/certstrap/pkix
-# go.step.sm/crypto v0.58.0
+# go.step.sm/crypto v0.59.0
 ## explicit; go 1.22.12
 go.step.sm/crypto/fingerprint
 go.step.sm/crypto/internal/bcrypt_pbkdf
@@ -180,7 +180,7 @@ golang.org/x/tools/internal/stdlib
 golang.org/x/tools/internal/typeparams
 golang.org/x/tools/internal/typesinternal
 golang.org/x/tools/internal/versions
-# google.golang.org/genproto/googleapis/rpc v0.0.0-20250224174004-546df14abb99
+# google.golang.org/genproto/googleapis/rpc v0.0.0-20250227231956-55c901821b1e
 ## explicit; go 1.23.0
 google.golang.org/genproto/googleapis/rpc/status
 # google.golang.org/grpc v1.70.0
