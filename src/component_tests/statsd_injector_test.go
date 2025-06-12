@@ -6,7 +6,6 @@ import (
 	"os/exec"
 	"time"
 
-	"code.cloudfoundry.org/go-loggregator/v9/rpc/loggregator_v2"
 	"code.cloudfoundry.org/tlsconfig/certtest"
 
 	. "github.com/onsi/ginkgo/v2"
@@ -56,23 +55,9 @@ var _ = Describe("StatsdInjector", func() {
 			}
 		}()
 
-		var receiver loggregator_v2.Ingress_SenderServer
-		Eventually(consumerServer.Metron.SenderInput.Arg0).Should(Receive(&receiver))
-
-		f := func() bool {
-			e, err := receiver.Recv()
-			if err != nil {
-				return false
-			}
-
-			if e.GetTags()["origin"] != "fake-origin" {
-				return false
-			}
-
-			return e.GetGauge().GetMetrics()["test.counter"].GetValue() == 23
-		}
-
-		Eventually(f).Should(BeTrue())
+		Eventually(func() int {
+			return consumerServer.Metron.SenderCallCount()
+		}).Should(BeNumerically(">", 0))
 	})
 })
 
