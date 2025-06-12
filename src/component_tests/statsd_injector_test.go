@@ -41,6 +41,18 @@ var _ = Describe("StatsdInjector", func() {
 		Expect(err).ToNot(HaveOccurred())
 		defer connection.Close()
 
+		receivedEnvelopes := make(chan *loggregator_v2.Envelope, 100)
+
+		consumerServer.Metron.SenderCalls(func(stream loggregator_v2.Ingress_SenderServer) error {
+			for {
+				envelope, err := stream.Recv()
+				if err != nil {
+					return err
+				}
+				receivedEnvelopes <- envelope
+			}
+		})
+
 		done := make(chan bool, 1)
 		defer close(done)
 		go func() {
@@ -56,23 +68,11 @@ var _ = Describe("StatsdInjector", func() {
 			}
 		}()
 
-		var receiver loggregator_v2.Ingress_SenderServer
-		Eventually(consumerServer.Metron.SenderInput.Arg0).Should(Receive(&receiver))
+		var receivedEnvelope *loggregator_v2.Envelope
+		Eventually(receivedEnvelopes).Should(Receive(&receivedEnvelope))
 
-		f := func() bool {
-			e, err := receiver.Recv()
-			if err != nil {
-				return false
-			}
-
-			if e.GetTags()["origin"] != "fake-origin" {
-				return false
-			}
-
-			return e.GetGauge().GetMetrics()["test.counter"].GetValue() == 23
-		}
-
-		Eventually(f).Should(BeTrue())
+		Expect(receivedEnvelope.GetTags()["origin"]).To(Equal("fake-origin"))
+		Expect(receivedEnvelope.GetGauge().GetMetrics()["test.counter"].GetValue()).To(Equal(float64(23)))
 	})
 })
 
