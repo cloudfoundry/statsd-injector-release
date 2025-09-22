@@ -94,7 +94,7 @@ func (l *StatsdListener) parseStat(data string) (*loggregator_v2.Envelope, error
 	parts := statsdRegexp.FindStringSubmatch(data)
 
 	if len(parts) == 0 {
-		return nil, fmt.Errorf("Input line '%s' was not a valid statsd line.", data)
+		return nil, fmt.Errorf("input line '%s' was not a valid statsd line", data)
 	}
 
 	// parts[0] is complete matched string
