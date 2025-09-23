@@ -125,6 +125,8 @@ builds:
     version: 1.11.3
   b2c1275f-99c1-4d77-503a-dc4ca04cd85b:
     version: 1.11.10
+  b51f2bbb-ce57-4178-7303-ab491ad11afe:
+    version: 1.11.49
   b72b714c-07ca-4135-5238-14288ed1cfc2:
     version: 1.11.37
   bb582d47-b04d-4bbc-6a70-086db44378b3:
