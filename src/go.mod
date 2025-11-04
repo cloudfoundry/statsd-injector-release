@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
-	code.cloudfoundry.org/tlsconfig v0.37.0
+	code.cloudfoundry.org/tlsconfig v0.38.0
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.12.0
 	github.com/onsi/ginkgo/v2 v2.27.2
 	github.com/onsi/gomega v1.38.2
@@ -20,7 +20,7 @@ require (
 	github.com/google/pprof v0.0.0-20251007162407-5df77e3f7d1d // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/square/certstrap v1.3.0 // indirect
-	go.step.sm/crypto v0.72.0 // indirect
+	go.step.sm/crypto v0.73.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
 	golang.org/x/crypto v0.43.0 // indirect
 	golang.org/x/mod v0.29.0 // indirect
