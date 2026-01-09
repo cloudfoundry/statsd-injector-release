@@ -7,7 +7,7 @@ require (
 	code.cloudfoundry.org/tlsconfig v0.42.0
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.12.1
 	github.com/onsi/ginkgo/v2 v2.27.3
-	github.com/onsi/gomega v1.38.3
+	github.com/onsi/gomega v1.39.0
 	google.golang.org/grpc v1.78.0
 )
 
