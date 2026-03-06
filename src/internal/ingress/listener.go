@@ -75,7 +75,7 @@ func (l *StatsdListener) run() string {
 				if err == nil {
 					l.outputChan <- envelope
 				} else {
-					log.Printf("Error parsing stat line \"%s\": %s", line, err.Error())
+					log.Printf("Error parsing stat line \"%s\": %s", line, err.Error()) //nolint:gosec
 				}
 			}
 		}
