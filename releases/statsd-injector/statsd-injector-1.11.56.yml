@@ -1,0 +1,38 @@
+name: statsd-injector
+version: 1.11.56
+commit_hash: 5c6a9ce4
+uncommitted_changes: false
+jobs:
+- name: statsd_injector
+  version: b298725cbb84f2e692ad6d6605d4efe02b73139dd9f2f53f08e1861352d764b5
+  fingerprint: b298725cbb84f2e692ad6d6605d4efe02b73139dd9f2f53f08e1861352d764b5
+  sha1: sha256:b1d8655c91dfe88f16eaf39f542ed812cfdda7012ca24f6e9c4c2956181e7906
+  packages:
+  - statsd_injector
+packages:
+- name: golang-1.26-darwin
+  version: 1ce95ef4367f242f3ba7847e93c6e5523d1470204477953697ac3a6379aa35bc
+  fingerprint: 1ce95ef4367f242f3ba7847e93c6e5523d1470204477953697ac3a6379aa35bc
+  sha1: sha256:c092ab6d2b4c3b07c095a7e4f2dcdb4ae5c5896df5bb2b8c7b06d891f813ff97
+  dependencies: []
+- name: golang-1.26-linux
+  version: 8c9cb9ef73b4301c89d60a58126c2111193418dd7eb819cc163d3dbcd4f0b256
+  fingerprint: 8c9cb9ef73b4301c89d60a58126c2111193418dd7eb819cc163d3dbcd4f0b256
+  sha1: sha256:1b891d14f5c63b66ee08036c230bd5ac636d92119bebf765ab655ebbdd414d0a
+  dependencies: []
+- name: golang-1.26-windows
+  version: 44aeeac8ae87e62ff23400385e55ccc02961e16a86e821398aeb47416cf5cde6
+  fingerprint: 44aeeac8ae87e62ff23400385e55ccc02961e16a86e821398aeb47416cf5cde6
+  sha1: sha256:659ba7a4a4d4d13b685219ecf01a7caa6812316814f3b5d89225f628c3f2585d
+  dependencies: []
+- name: statsd_injector
+  version: bfe574c56837f6251c51d99851434615e8c363c1472b48168fe507cb0f21c6c2
+  fingerprint: bfe574c56837f6251c51d99851434615e8c363c1472b48168fe507cb0f21c6c2
+  sha1: sha256:dcb25fc6df5960120d8429374141a62e033e827ccbd9c1354a6bd44027fa38c7
+  dependencies:
+  - golang-1.26-linux
+license:
+  version: a0f4e4a54affb3bba6eb73abfdd5144f1b2ba169a408c19825243cb5df65ad85
+  fingerprint: a0f4e4a54affb3bba6eb73abfdd5144f1b2ba169a408c19825243cb5df65ad85
+  sha1: sha256:fbfa0deb90c97731bc7c4d2f516d99382b40bbca2630a7e5d7689a249f93acd1
+no_compression: false
