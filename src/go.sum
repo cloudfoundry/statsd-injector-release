@@ -1,7 +1,7 @@
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1 h1:S6Lgg5UJbhh2bt2TGQxs6R00CF8PrUA3GFPYDxy56Fk=
 code.cloudfoundry.org/go-loggregator/v9 v9.2.1/go.mod h1:FTFFruqGeOhVCDFvyLgl8EV8YW63NNwRzLhxJcporu8=
-code.cloudfoundry.org/tlsconfig v0.64.0 h1:RfqVhbAyLiF9o5OZpIv7s5wIGY94Orao/EUiiHg4Br4=
-code.cloudfoundry.org/tlsconfig v0.64.0/go.mod h1:lBONCe4dGY95PBY4NGMXNDtmayJHeZyOaXZKGcXWNSw=
+code.cloudfoundry.org/tlsconfig v0.65.0 h1:mPga0pCfQp9nTHgXizFrfpsWmmcGHIUgD+cYb8KPpmw=
+code.cloudfoundry.org/tlsconfig v0.65.0/go.mod h1:orvSwt5ytEO49rjIY+JLGcbIoCCbVbcowHHTbheYToI=
 filippo.io/edwards25519 v1.2.0 h1:crnVqOiS4jqYleHd9vaKZ+HKtHfllngJIiOpNpoJsjo=
 filippo.io/edwards25519 v1.2.0/go.mod h1:xzAOLCNug/yB62zG1bQ8uziwrIqIuxhctzJT18Q77mc=
 github.com/Masterminds/semver/v3 v3.5.0 h1:kQceYJfbupGfZOKZQg0kou0DgAKhzDg2NZPAwZ/2OOE=
@@ -80,8 +80,8 @@ go.opentelemetry.io/otel/sdk/metric v1.44.0 h1:3LlKgI+VjbVsjNRFZJZAJ30WjXC5VkNRk
 go.opentelemetry.io/otel/sdk/metric v1.44.0/go.mod h1:5B5pMARnXxKhltooO4xUuCBorl65a4EpnTalObqOigA=
 go.opentelemetry.io/otel/trace v1.44.0 h1:jxF5CsGYCe74MCRx2X4g7WsY/VBKRqqpNvXlX/6gtIk=
 go.opentelemetry.io/otel/trace v1.44.0/go.mod h1:oLl1jrMQAVo6v3GAggN+1VH9VIz9iUSvW53sW1Q8PIE=
-go.step.sm/crypto v0.88.0 h1:ZTPqGHyt6hI/68gJgovFnKZkWDtsEXUKUnQnZSCh0BM=
-go.step.sm/crypto v0.88.0/go.mod h1:v7+HWSnr4CGAuK4wp5wH6xTwBLGC4yuvE3TMKQ669wY=
+go.step.sm/crypto v0.89.0 h1:NPxryE+cZ4XDwXOQY2U6Gu+mOzOihuRLPIsX7WtPzZM=
+go.step.sm/crypto v0.89.0/go.mod h1:IEgE6DndnYojbDyHU7eYXpwWzpu4ftkouw7nyI6jsxg=
 go.yaml.in/yaml/v3 v3.0.5 h1:N6y/pJk8buWs9NY5ERU2HSMfm+IuD/OtfdAnq6kESPw=
 go.yaml.in/yaml/v3 v3.0.5/go.mod h1:HVTZu1O7/Vkt2N+BFy8Zza+lnLsABggaTM2ZpNIGuKg=
 golang.org/x/crypto v0.55.0 h1:+KWHjbgOaAQ66dh/YlkZKHlz9ZUlq61AFirAR9ntP8M=
