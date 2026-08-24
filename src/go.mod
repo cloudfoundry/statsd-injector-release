@@ -1,6 +1,6 @@
 module github.com/cloudfoundry/statsd-injector
 
-go 1.25.8
+go 1.26.7
 
 require (
 	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
