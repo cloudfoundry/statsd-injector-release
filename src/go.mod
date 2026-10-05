@@ -3,7 +3,7 @@ module github.com/cloudfoundry/statsd-injector
 go 1.26.7
 
 require (
-	code.cloudfoundry.org/go-loggregator/v9 v9.2.1
+	code.cloudfoundry.org/go-loggregator/v10 v10.3.1
 	code.cloudfoundry.org/tlsconfig v0.68.0
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.14.0
 	github.com/onsi/ginkgo/v2 v2.33.0
