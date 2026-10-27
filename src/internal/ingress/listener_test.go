@@ -181,6 +181,97 @@ var _ = Describe("StatsdListener", func() {
 			Expect(receivedEnvelope.GetTags()["testtag1"]).To(Equal("testvalue1"))
 			Expect(receivedEnvelope.GetTags()["testtag2"]).To(Equal("testvalue2"))
 		})
+
+		DescribeTable("malformed Datadog tags",
+			func(section string, expectedTags map[string]string) {
+				statsdmsg := []byte("fake-origin.test.counter:1|c|#" + section)
+				_, err := connection.Write(statsdmsg)
+				Expect(err).ToNot(HaveOccurred())
+
+				f := func() int {
+					connection.Write(statsdmsg) //nolint:errcheck
+					return len(envelopeChan)
+				}
+				Eventually(f, 3).ShouldNot(Equal(0))
+
+				var receivedEnvelope *loggregator_v2.Envelope
+				Eventually(envelopeChan).Should(Receive(&receivedEnvelope))
+
+				Expect(receivedEnvelope.GetTags()).To(Equal(expectedTags))
+			},
+			Entry(nil, "testtag1:testvalue1,testtag2:testvalue2", map[string]string{
+				"origin":   "fake-origin",
+				"testtag1": "testvalue1",
+				"testtag2": "testvalue2",
+			}),
+			Entry(nil, "x", map[string]string{
+				"origin": "fake-origin",
+			}),
+			Entry(nil, "k:v,bare", map[string]string{
+				"origin": "fake-origin",
+				"k":      "v",
+			}),
+			Entry(nil, "bare,k:v", map[string]string{
+				"origin": "fake-origin",
+				"k":      "v",
+			}),
+			Entry(nil, "k:v,", map[string]string{
+				"origin": "fake-origin",
+				"k":      "v",
+			}),
+			Entry(nil, ",", map[string]string{
+				"origin": "fake-origin",
+			}),
+			Entry(nil, ":v", map[string]string{
+				"origin": "fake-origin",
+				"":       "v",
+			}),
+			Entry(nil, "k:", map[string]string{
+				"origin": "fake-origin",
+				"k":      "",
+			}),
+			Entry(nil, "a:b:c", map[string]string{
+				"origin": "fake-origin",
+				"a":      "b",
+			}),
+		)
+
+		It("keeps processing after a malformed tag line", func() {
+			statsdmsg := []byte("fake-origin.test.counter:1|c|#x\nfake-origin.after.gauge:7|g")
+			_, err := connection.Write(statsdmsg)
+			Expect(err).ToNot(HaveOccurred())
+
+			f := func() int {
+				connection.Write(statsdmsg) //nolint:errcheck
+				return len(envelopeChan)
+			}
+			Eventually(f, 3).ShouldNot(Equal(0))
+
+			Eventually(envelopeChan, 3).Should(Receive(WithTransform(func(e *loggregator_v2.Envelope) map[string]*loggregator_v2.GaugeValue { return e.GetGauge().GetMetrics() }, HaveKey("after.gauge"))))
+		})
+
+		It("safeParse recovers from a panicking parse func", func() {
+			var env *loggregator_v2.Envelope
+			var err error
+
+			Expect(func() {
+				env, err = ingress.SafeParse(func(string) (*loggregator_v2.Envelope, error) {
+					panic("test panic")
+				}, "fake-origin.test.counter:1|c")
+			}).ToNot(Panic())
+
+			Expect(env).To(BeNil())
+			Expect(err).To(HaveOccurred())
+			Expect(err.Error()).To(ContainSubstring("panic parsing stat line"))
+
+			expectedEnv := &loggregator_v2.Envelope{SourceId: "fake-origin"}
+			env, err = ingress.SafeParse(func(string) (*loggregator_v2.Envelope, error) {
+				return expectedEnv, nil
+			}, "fake-origin.test.counter:1|c")
+
+			Expect(err).ToNot(HaveOccurred())
+			Expect(env).To(BeIdenticalTo(expectedEnv))
+		})
 	})
 })
 

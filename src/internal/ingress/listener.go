@@ -71,7 +71,7 @@ func (l *StatsdListener) run() string {
 			scanner := bufio.NewScanner(bytes.NewBuffer(trimmedBytes))
 			for scanner.Scan() {
 				line := scanner.Text()
-				envelope, err := l.parseStat(line)
+				envelope, err := safeParse(l.parseStat, line)
 				if err == nil {
 					l.outputChan <- envelope
 				} else {
@@ -86,6 +86,16 @@ func (l *StatsdListener) run() string {
 
 func (l *StatsdListener) Stop() {
 	close(l.stopChan)
+}
+
+func safeParse(parse func(string) (*loggregator_v2.Envelope, error), line string) (env *loggregator_v2.Envelope, err error) {
+	defer func() {
+		if r := recover(); r != nil {
+			env = nil
+			err = fmt.Errorf("panic parsing stat line: %v", r)
+		}
+	}()
+	return parse(line)
 }
 
 var statsdRegexp = regexp.MustCompile(`([^.]+)\.([^:]+):([+-]?)(\d+(\.\d+)?)\|(ms|g|c)(\|@(\d+(\.\d+)?))?(\|#([\w:,]*))?`)
@@ -141,6 +151,9 @@ func (l *StatsdListener) parseStat(data string) (*loggregator_v2.Envelope, error
 		tagPairs := strings.Split(tagString, ",")
 		for _, pair := range tagPairs {
 			kv := strings.Split(pair, ":")
+			if len(kv) < 2 {
+				continue
+			}
 			tags[kv[0]] = kv[1]
 		}
 	}
