@@ -6,7 +6,7 @@ require (
 	code.cloudfoundry.org/go-loggregator/v10 v10.3.1
 	code.cloudfoundry.org/tlsconfig v0.70.0
 	github.com/maxbrunsfeld/counterfeiter/v6 v6.14.0
-	github.com/onsi/ginkgo/v2 v2.33.1
+	github.com/onsi/ginkgo/v2 v2.34.0
 	github.com/onsi/gomega v1.44.0
 	google.golang.org/grpc v1.85.0
 )
